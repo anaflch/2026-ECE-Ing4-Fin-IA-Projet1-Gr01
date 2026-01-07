@@ -11,9 +11,6 @@ Projet pédagogique d'exploration des approches d'intelligence artificielle symb
 - **20 janvier** : Checkpoint intermédiaire
 - **02 février** : Présentation finale et rendu
 
-### Date de livraison
-Le code avec le README devront être livrés 2 jours au plus tard avant la présentation.
-
 ### Taille des groupes
 La taille standard d'un groupe est de 3 personnes, avec +1 pour les groupes de 2 et -1 pour les groupes de 4
 
@@ -27,6 +24,48 @@ La taille standard d'un groupe est de 3 personnes, avec +1 pour les groupes de 2
 - Code source documenté
 - README de présentation avec infos essentielles, procédure d'installation et tests
 - Slides de la présentation
+
+### 📋 Instructions de soumission
+
+#### ⚠️ IMPORTANT : Organisation du travail
+
+> **ATTENTION** : Tout votre travail **DOIT** être organisé dans un **sous-répertoire dédié** à votre groupe.
+>
+> **Structure obligatoire** :
+> ```
+> /groupe-XX-nom-sujet/
+> ├── README.md          # Documentation de votre projet
+> ├── src/               # Code source
+> ├── docs/              # Documentation technique
+> ├── slides/            # Support de présentation (PDF ou lien)
+> └── ...
+> ```
+>
+> ❌ **Ne pas** mettre vos fichiers à la racine du dépôt
+> ✅ **Tout** doit être dans votre sous-répertoire de groupe
+
+#### Soumission du code et de la documentation
+1. **Créer un fork** de ce dépôt sur votre compte GitHub (vous n'avez pas les droits d'écriture sur ce dépôt)
+2. **Créer un sous-répertoire** pour votre groupe : `groupe-XX-nom-sujet/` (ex: `groupe-03-portfolio-csp/`)
+3. **Développer votre projet** exclusivement dans ce sous-répertoire
+4. **Soumettre une Pull Request** vers ce dépôt **au moins 2 jours avant la présentation** (soit le **31 janvier 2026** au plus tard)
+5. La PR doit inclure :
+   - Le code source complet et fonctionnel dans votre sous-répertoire
+   - Un README détaillé dans votre sous-répertoire (installation, utilisation, tests)
+   - La documentation technique
+
+#### Soumission du support de présentation
+- Les slides de présentation doivent être soumises **avant le début de la présentation** (soit le **02 février 2026** au matin)
+- Format accepté : PDF, PowerPoint, ou lien vers Google Slides/Canva
+- Ajouter les slides dans votre sous-répertoire (`groupe-XX/slides/`) ou partager le lien dans le README de votre sous-répertoire
+
+#### Checklist de soumission
+- [ ] Fork du dépôt créé
+- [ ] Sous-répertoire `groupe-XX-nom-sujet/` créé avec tout le contenu dedans
+- [ ] README avec procédure d'installation et tests dans le sous-répertoire
+- [ ] Pull Request créée et reviewable
+- [ ] Slides de présentation soumises (dans le sous-répertoire ou lien dans README)
+- [ ] Tous les membres du groupe identifiés dans la PR (noms + GitHub usernames)
 
 ---
 
@@ -1013,4 +1052,384 @@ Face à la sophistication croissante des techniques de désinformation, ce syst�
 - Apprentissage par renforcement pour l'adaptation continue
 - Intégration avec systèmes de détection de désinformation
 
-## 📤 Instructions de soumission
+---
+
+## 🏦 Sujets spécialisés Finance
+
+Les sujets suivants sont spécifiquement conçus pour les étudiants de la filière Finance, appliquant les techniques d'IA exploratoire et symbolique aux problématiques financières.
+
+---
+
+### 40. Optimisation de portefeuille avec contraintes réelles (CSP/MILP)
+
+**Description du problème et contexte**
+L'optimisation de portefeuille classique (Markowitz) ignore les contraintes pratiques : coûts de transaction, lots minimums, nombre maximal d'actifs, contraintes sectorielles. Ce problème NP-difficile se formule naturellement en programmation mixte entière (MILP) ou CSP, permettant d'intégrer des contraintes de cardinalité (max N actifs), de diversification sectorielle et de rééquilibrage sous coûts de transaction.
+
+**Références multiples**
+- **Revue** : [A recent review on optimisation methods applied to credit scoring models](https://www.emerald.com/jefas/article/28/56/352/206236/A-recent-review-on-optimisation-methods-applied-to) - Journal of Economics, Finance and Administrative Science
+- **MILP** : [Linear and Mixed Integer Programming for Portfolio Optimization](https://www.researchgate.net/publication/283777316_Linear_and_Mixed_Integer_Programming_for_Portfolio_Optimization) - ResearchGate
+- **Rebalancing** : [Constructing Optimal Portfolio Rebalancing Strategies](https://link.springer.com/article/10.1007/s10614-024-10555-y) - Computational Economics 2024
+- **Contraintes CVaR** : [Constrained Max Drawdown: a Fast and Robust Portfolio Optimization](https://arxiv.org/html/2401.02601v1) - arXiv 2024
+
+**Approches suggérées**
+- Modéliser les variables de décision (poids des actifs) avec contraintes de cardinalité via variables binaires
+- Implémenter les contraintes de diversification sectorielle et géographique
+- Intégrer les coûts de transaction dans la fonction objectif
+- Comparer formulations MILP (Gurobi) et CSP (OR-Tools) sur données réelles
+
+**Technologies pertinentes**
+- Python avec Gurobi, CPLEX ou OR-Tools pour l'optimisation
+- cvxpy pour la modélisation convexe avec contraintes
+- Pandas et yfinance pour les données financières historiques
+- Matplotlib/Plotly pour la visualisation des frontières efficientes
+
+---
+
+### 41. Stratégies de trading par algorithmes génétiques
+
+**Description du problème et contexte**
+L'optimisation de stratégies de trading algorithmique nécessite d'explorer un espace combinatoire immense de règles et paramètres. Les algorithmes génétiques permettent d'évoluer des populations de stratégies, combinant indicateurs techniques et règles de décision, tout en évitant le surapprentissage grâce à des techniques de validation robustes.
+
+**Références multiples**
+- **Revue comparative** : [Robust Metaheuristic Optimization for Algorithmic Trading](https://www.mdpi.com/2227-7390/14/1/69) - MDPI Mathematics 2024
+- **GA pour trading** : [Applicability of genetic algorithms for stock market prediction: A systematic survey](https://www.sciencedirect.com/science/article/abs/pii/S1574013724000364) - ScienceDirect 2024
+- **Directional Changes** : [A genetic algorithm for multi-threshold trading strategies](https://link.springer.com/article/10.1007/s10462-025-11419-z) - Artificial Intelligence Review 2025
+- **Vectorial GP** : [Evolving Financial Trading Strategies with Vectorial Genetic Programming](https://arxiv.org/html/2504.05418v1) - arXiv 2025
+
+**Approches suggérées**
+- Encoder les stratégies comme chromosomes (indicateurs, seuils, règles)
+- Définir une fonction fitness multi-objectifs (rendement, Sharpe ratio, max drawdown)
+- Implémenter la sélection, croisement et mutation adaptés au domaine financier
+- Utiliser le walk-forward testing pour éviter le curve-fitting
+
+**Technologies pertinentes**
+- Python avec DEAP ou PyGAD pour les algorithmes génétiques
+- Backtrader ou Zipline pour le backtesting de stratégies
+- TA-Lib pour les indicateurs techniques
+- QuantConnect pour validation sur données réelles
+
+---
+
+### 42. Détection de fraude financière par graphes
+
+**Description du problème et contexte**
+La détection de fraude dans les transactions financières exploite la structure de graphe des relations entre comptes. Les réseaux de neurones sur graphes (GNN) et les algorithmes de détection d'anomalies permettent d'identifier des patterns de fraude sophistiqués (fraude en réseau, blanchiment d'argent) invisibles aux méthodes traditionnelles basées sur des règles.
+
+**Références multiples**
+- **Revue systématique** : [Financial fraud detection using graph neural networks: A systematic review](https://www.sciencedirect.com/science/article/abs/pii/S0957417023026581) - Expert Systems with Applications
+- **NVIDIA Blueprint** : [Supercharging Fraud Detection with Graph Neural Networks](https://developer.nvidia.com/blog/supercharging-fraud-detection-in-financial-services-with-graph-neural-networks/) - NVIDIA 2024
+- **FraudGT** : [A Simple, Effective, and Efficient Graph Transformer](https://jshun.csail.mit.edu/FraudGT.pdf) - ICAIF 2024
+- **Curated papers** : [Graph fraud detection papers](https://github.com/safe-graph/graph-fraud-detection-papers) - GitHub
+
+**Approches suggérées**
+- Modéliser les transactions comme graphe orienté (comptes = nœuds, transactions = arêtes)
+- Implémenter des algorithmes de détection d'anomalies sur graphes
+- Utiliser les GNN pour l'apprentissage de représentations des nœuds
+- Développer des métriques d'évaluation adaptées au déséquilibre des classes
+
+**Technologies pertinentes**
+- Python avec PyTorch Geometric ou DGL pour les GNN
+- NetworkX pour l'analyse de graphes classique
+- Neo4j pour le stockage et requêtes sur graphes
+- Scikit-learn pour les métriques et baseline ML
+
+---
+
+### 43. Système expert de conformité réglementaire (AML/KYC)
+
+**Description du problème et contexte**
+La conformité anti-blanchiment (AML) et Know Your Customer (KYC) repose sur des règles complexes définies par les régulateurs. Un système expert permet de formaliser ces règles en logique, d'automatiser la détection de transactions suspectes et de fournir des explications auditables pour les décisions de signalement.
+
+**Références multiples**
+- **AML/AI** : [Anti-money laundering supervision by intelligent algorithm](https://www.sciencedirect.com/science/article/abs/pii/S0167404823002547) - Computers & Security
+- **Oracle AML** : [Anti-Money Laundering AI Explained](https://www.oracle.com/financial-services/aml-ai/) - Oracle
+- **Règles AML** : [AML Transaction Monitoring Rules and Best Practices](https://www.sanctions.io/blog/anti-money-laundering-aml-transaction-monitoring-rules-and-best-practices) - Sanctions.io
+- **ML pour AML** : [Machine Learning and AI in AML Compliance](https://sumsub.com/blog/aml-machine-learning/) - Sumsub 2024
+
+**Approches suggérées**
+- Formaliser les règles de détection AML en logique (Prolog ou moteur de règles)
+- Implémenter les scénarios de détection (structuration, transactions inhabituelles)
+- Développer un système d'explication des alertes générées
+- Intégrer des techniques ML pour réduire les faux positifs
+
+**Technologies pertinentes**
+- Python avec PyKE ou CLIPS pour le moteur de règles
+- Prolog pour la modélisation logique des règles
+- Drools ou business rules engine pour l'industrialisation
+- Interface web pour la gestion des alertes et investigations
+
+---
+
+### 44. Ontologie financière et conformité sémantique (FIBO)
+
+**Description du problème et contexte**
+L'ontologie FIBO (Financial Industry Business Ontology) standardise les concepts financiers pour la conformité réglementaire. Ce sujet explore l'utilisation des technologies du web sémantique pour automatiser la vérification de conformité, en alignant les données d'entreprise avec les exigences réglementaires via le raisonnement ontologique.
+
+**Références multiples**
+- **FIBO** : [Financial Industry Business Ontology](https://github.com/edmcouncil/fibo) - GitHub EDM Council
+- **FinRegOnt** : [Semantic Compliance in Finance](https://finregont.com/) - Financial Regulation Ontology
+- **Knowledge Graphs Finance** : [The Power of Ontologies and Knowledge Graphs in Finance](https://graphwise.ai/blog/the-power-of-ontologies-and-knowledge-graphs-practical-examples-from-the-financial-industry/) - Graphwise 2024
+- **Tutoriel** : [Introduction to Financial Regulation Ontology](https://finregont.com/tutorial/) - FinRegOnt
+
+**Approches suggérées**
+- Explorer et étendre une sous-partie de FIBO pertinente (ex: instruments financiers)
+- Modéliser des règles réglementaires en OWL avec classes définies
+- Implémenter un raisonneur pour inférer la conformité automatiquement
+- Développer des requêtes SPARQL pour l'audit de conformité
+
+**Technologies pertinentes**
+- Protégé pour l'édition d'ontologies OWL
+- Apache Jena ou RDFLib pour le traitement RDF/SPARQL
+- HermiT ou Pellet pour le raisonnement ontologique
+- Python pour l'intégration et l'interface utilisateur
+
+---
+
+### 45. Vérification formelle de smart contracts financiers (SMT)
+
+**Description du problème et contexte**
+Les smart contracts DeFi gèrent des milliards de dollars et sont vulnérables aux bugs exploitables. Les solveurs SMT (Satisfiability Modulo Theories) permettent de vérifier formellement les propriétés de sécurité des contrats financiers (absence d'overflow, invariants de solde, conditions de liquidation) avant leur déploiement.
+
+**Références multiples**
+- **Ethereum Formal Verification** : [Formal verification of smart contracts](https://ethereum.org/developers/docs/smart-contracts/formal-verification/) - ethereum.org
+- **SMTChecker** : [Solidity SMTChecker and Formal Verification](https://docs.soliditylang.org/en/latest/smtchecker.html) - Solidity Documentation
+- **ESBMC-Solidity** : [An SMT-Based Model Checker for Solidity](https://arxiv.org/pdf/2111.13117) - arXiv
+- **Memory Splitting** : [Practical Verification of Smart Contracts](https://dl.acm.org/doi/10.1145/3689796) - OOPSLA 2024
+
+**Approches suggérées**
+- Modéliser un contrat financier simple (token ERC-20, AMM basique) en Solidity
+- Spécifier les propriétés de sécurité (invariants de balance, access control)
+- Utiliser Z3 ou SMTChecker pour prouver/réfuter ces propriétés
+- Documenter les vulnérabilités détectées et corrections apportées
+
+**Technologies pertinentes**
+- Solidity pour l'écriture des smart contracts
+- Z3 Theorem Prover pour la vérification SMT
+- Foundry ou Hardhat pour le développement et tests
+- Mythril ou Slither pour l'analyse statique complémentaire
+
+---
+
+### 46. Graphe de connaissances pour la gestion des risques financiers
+
+**Description du problème et contexte**
+Les graphes de connaissances financiers (Financial Event Knowledge Graphs) permettent de modéliser les relations complexes entre entités (entreprises, personnes, événements) pour identifier et propager les risques. Cette approche neuro-symbolique combine le raisonnement sur graphes avec l'apprentissage automatique pour la prédiction de risques.
+
+**Références multiples**
+- **FEEKG** : [Risk identification through knowledge Association: A financial event evolution knowledge graph](https://www.sciencedirect.com/science/article/abs/pii/S0957417424008650) - Expert Systems with Applications 2024
+- **Supply Chain Risk** : [Knowledge graph reasoning for supply chain risk management](https://www.tandfonline.com/doi/full/10.1080/00207543.2022.2100841) - Taylor & Francis
+- **FinReflectKG** : [Agentic Construction and Evaluation of Financial Knowledge Graphs](https://arxiv.org/pdf/2508.17906) - arXiv
+- **SEMANTiCS 2024** : [Knowledge Graphs in the Age of LLMs and Neuro-Symbolic AI](https://ebooks.iospress.nl/volume/knowledge-graphs-in-the-age-of-language-models-and-neuro-symbolic-ai-proceedings-of-the-20th-international-conference-on-semantic-systems) - IOS Press
+
+**Approches suggérées**
+- Construire un graphe de connaissances à partir de données financières publiques
+- Modéliser les relations entité-événement-risque en multi-couches
+- Implémenter des algorithmes de propagation de risque sur le graphe
+- Utiliser des GNN pour la prédiction de liens et de risques émergents
+
+**Technologies pertinentes**
+- Neo4j ou Amazon Neptune pour le stockage du graphe
+- Python avec PyKEEN ou DGL-KE pour l'apprentissage sur graphes
+- spaCy/Stanza pour l'extraction d'entités nommées financières
+- Dash/Streamlit pour la visualisation interactive du graphe
+
+---
+
+### 47. Scoring de crédit équitable par optimisation sous contraintes
+
+**Description du problème et contexte**
+Le scoring de crédit par ML pose des problèmes d'équité (biais contre certains groupes). La recherche récente propose d'intégrer des contraintes d'équité directement dans l'optimisation du modèle, formulant le problème comme une optimisation sous contraintes où les métriques d'équité (demographic parity, equalized odds) sont des contraintes à satisfaire.
+
+**Références multiples**
+- **Fairness Constraints** : [Fairness in Credit Scoring: Assessment, Implementation and Profit Implications](https://arxiv.org/pdf/2103.01907) - arXiv
+- **GA Credit Strategy** : [Finding an Optimal Approval Strategy using Genetic Algorithm](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4461370) - SSRN
+- **ML Credit Review** : [Machine learning powered financial credit scoring: a systematic review](https://link.springer.com/article/10.1007/s10462-025-11416-2) - AI Review 2025
+- **Threshold Optimization** : [Optimizing Acceptance Threshold using Reinforcement Learning](https://github.com/MykolaHerasymovych/Optimizing-Acceptance-Threshold-in-Credit-Scoring-using-Reinforcement-Learning) - GitHub
+
+**Approches suggérées**
+- Formuler le scoring comme problème d'optimisation avec contraintes d'équité
+- Implémenter différentes métriques d'équité comme contraintes
+- Comparer les approches (pre-processing, in-processing, post-processing)
+- Analyser le trade-off équité vs. performance prédictive
+
+**Technologies pertinentes**
+- Python avec Fairlearn ou AIF360 pour les contraintes d'équité
+- scikit-learn pour les modèles de base
+- cvxpy pour l'optimisation sous contraintes
+- SHAP/LIME pour l'explicabilité des décisions
+
+---
+
+### 48. IA explicable pour décisions d'investissement (XAI Finance)
+
+**Description du problème et contexte**
+Les modèles ML en finance (trading, gestion de portefeuille) sont souvent des boîtes noires incompatibles avec les exigences réglementaires de justification des décisions. L'IA explicable (XAI) combine l'argumentation computationnelle avec les techniques d'explicabilité pour fournir des justifications compréhensibles et auditables des recommandations d'investissement.
+
+**Références multiples**
+- **CFA Institute** : [Explainable AI in Finance: Addressing the Needs of Diverse Stakeholders](https://rpc.cfainstitute.org/research/reports/2025/explainable-ai-in-finance) - CFA Institute 2025
+- **Revue systématique** : [A Systematic Review of Explainable AI in Finance](https://arxiv.org/pdf/2503.05966) - arXiv 2025
+- **BIS** : [How regulators can address AI explainability](https://www.bis.org/fsi/fsipapers24.pdf) - Bank for International Settlements 2024
+- **XAI Review** : [Explainable AI (XAI) in finance: a systematic literature review](https://link.springer.com/article/10.1007/s10462-024-10854-8) - AI Review 2024
+
+**Approches suggérées**
+- Implémenter un modèle de recommandation d'investissement (ML ou basé règles)
+- Intégrer des techniques XAI (SHAP, LIME, counterfactual explanations)
+- Développer un système d'argumentation pour structurer les justifications
+- Créer une interface présentant les recommandations avec explications
+
+**Technologies pertinentes**
+- Python avec SHAP, LIME ou Captum pour l'explicabilité
+- TweetyProject ou frameworks d'argumentation pour la structuration
+- LLMs pour la génération d'explications en langage naturel
+- Streamlit/Dash pour l'interface de visualisation
+
+---
+
+### 49. Planification d'investissement multi-périodes par programmation dynamique
+
+**Description du problème et contexte**
+La planification d'investissement sur plusieurs périodes avec objectifs de retraite, contraintes de liquidité et événements de vie (achat immobilier, études des enfants) se modélise comme un problème de programmation dynamique stochastique. Les approches CSP et métaheuristiques permettent d'intégrer des contraintes complexes non-linéaires.
+
+**Références multiples**
+- **Dynamic Programming** : [Optimal Rebalancing Strategy Using Dynamic Programming for Institutional Portfolios](https://www.researchgate.net/publication/228224355_Optimal_Rebalancing_Strategy_Using_Dynamic_Programming_for_Institutional_Portfolios) - ResearchGate
+- **Asset Allocation** : [Principles of Asset Allocation](https://www.cfainstitute.org/insights/professional-learning/refresher-readings/2025/principles-asset-allocation) - CFA Institute 2025
+- **Vanguard** : [The rebalancing edge: Optimizing threshold-based strategies](https://corporate.vanguard.com/content/dam/corp/research/pdf/the_rebalancing_edge_optimizing_target_date_fund_rebalancing_through_threshold_based_strategies.pdf) - Vanguard Research 2024
+- **Metaheuristics** : [Practical Portfolio Optimization with Metaheuristics](https://arxiv.org/pdf/2503.15965) - arXiv 2025
+
+**Approches suggérées**
+- Modéliser le problème comme MDP (Markov Decision Process) avec états financiers
+- Implémenter l'équation de Bellman avec discrétisation de l'espace d'états
+- Intégrer les contraintes de liquidité et objectifs de vie
+- Comparer programmation dynamique, métaheuristiques et reinforcement learning
+
+**Technologies pertinentes**
+- Python avec NumPy/SciPy pour la programmation dynamique
+- OR-Tools ou Gurobi pour les contraintes
+- Gymnasium (OpenAI Gym) pour la formulation RL
+- Monte Carlo simulation pour les scénarios stochastiques
+
+---
+
+### 50. Optimisation d'exécution d'ordres par contraintes (TWAP/VWAP)
+
+**Description du problème et contexte**
+L'exécution optimale de gros ordres boursiers nécessite de découper les transactions en sous-ordres pour minimiser l'impact sur le marché. Les stratégies TWAP (Time-Weighted Average Price) et VWAP (Volume-Weighted Average Price) se formulent comme des problèmes d'optimisation sous contraintes (volume, timing, coût d'impact) où la programmation par contraintes permet d'intégrer des règles de trading complexes.
+
+**Références multiples**
+- **Stanford** : [Volume Weighted Average Price Optimal Execution](https://web.stanford.edu/~boyd/papers/pdf/vwap_opt_exec.pdf) - Boyd et al.
+- **IJCAI** : [An End-to-End Optimal Trade Execution Framework](https://www.ijcai.org/Proceedings/2020/0627.pdf) - IJCAI 2020
+- **Columbia** : [An Optimal Control Strategy for Execution of Large Stock Orders Using LSTMs](https://cfe.columbia.edu/sites/cfe.columbia.edu/files/content/LSTM_PRICE_IMPACT_Bloomberg.pdf) - Columbia Finance
+- **Safe Execution** : [Safe and Compliant Cross-Market Trade Execution via Constrained RL](https://arxiv.org/pdf/2510.04952) - arXiv 2025
+
+**Approches suggérées**
+- Modéliser le problème d'exécution comme CSP avec contraintes de volume et timing
+- Implémenter les stratégies TWAP et VWAP comme baselines
+- Développer une optimisation sous contraintes d'impact de marché
+- Comparer avec des approches de contrôle optimal et reinforcement learning
+
+**Technologies pertinentes**
+- Python avec OR-Tools ou cvxpy pour l'optimisation sous contraintes
+- Backtrader ou vectorbt pour le backtesting
+- Données tick-by-tick (Binance, Alpaca) pour validation
+- Pandas pour l'analyse de séries temporelles financières
+
+---
+
+### 51. Market Making optimal avec contraintes d'inventaire
+
+**Description du problème et contexte**
+Le market making consiste à fournir de la liquidité en proposant continuellement des prix bid et ask. Le market maker fait face à un problème d'optimisation complexe : maximiser le profit du spread tout en gérant le risque d'inventaire. Ce problème de contrôle stochastique avec contraintes se formule comme un problème HJB (Hamilton-Jacobi-Bellman) discrétisé ou comme CSP dynamique.
+
+**Références multiples**
+- **Référence fondatrice** : [Dealing with the Inventory Risk: A solution to the market making problem](https://arxiv.org/abs/1105.3115) - Guéant et al.
+- **Stochastic Control** : [Stochastic Control for Optimal Market-Making](https://web.stanford.edu/~ashlearn/RLForFinanceBook/MarketMaking.pdf) - Stanford
+- **QuantPedia** : [Optimal Market Making Models with Stochastic Volatility](https://quantpedia.com/optimal-market-making-models-with-stochastic-volatility/) - QuantPedia
+- **SIAM** : [Adaptive Optimal Market Making Strategies with Inventory Liquidation](https://epubs.siam.org/doi/10.1137/23M1571058) - SIAM 2024
+
+**Approches suggérées**
+- Modéliser les contraintes d'inventaire (position max, VaR limite)
+- Implémenter l'équation HJB discrétisée pour le spread optimal
+- Développer une version CSP avec contraintes de risque explicites
+- Tester sur données de carnet d'ordres simulées ou réelles
+
+**Technologies pertinentes**
+- Python avec NumPy/SciPy pour la résolution numérique
+- OR-Tools pour la formulation CSP des contraintes
+- Gymnasium pour la formulation RL alternative
+- Données LOB (Limit Order Book) de LOBSTER ou Binance
+
+---
+
+### 52. Optimisation de portefeuille multi-objectifs Pareto (NSGA-II/III)
+
+**Description du problème et contexte**
+L'optimisation de portefeuille moderne dépasse le cadre bi-objectif rendement/risque pour intégrer des objectifs multiples : critères ESG, liquidité, drawdown maximum, turnover. Les algorithmes évolutionnaires multi-objectifs (NSGA-II, NSGA-III) permettent d'explorer la frontière de Pareto et de proposer un ensemble de solutions non-dominées au décideur.
+
+**Références multiples**
+- **NSGA-III Portfolio** : [Multi-Objective Portfolio Optimization: Application of NSGA-III](https://www.mdpi.com/2227-7072/13/1/15) - MDPI Finance 2025
+- **EvoFolio** : [EvoFolio: portfolio optimization based on multi-objective evolutionary algorithms](https://link.springer.com/article/10.1007/s00521-024-09456-w) - Neural Computing 2024
+- **Learning-guided** : [A learning-guided multi-objective evolutionary algorithm for constrained portfolio optimization](https://www.sciencedirect.com/science/article/pii/S1568494614003913) - Applied Soft Computing
+- **Pareto Chain** : [Pareto evolutionary algorithm based on Markov chain for portfolio optimization](https://www.sciencedirect.com/science/article/pii/S0957417425027617) - Expert Systems 2025
+
+**Approches suggérées**
+- Définir 3-5 objectifs financiers (rendement, volatilité, ESG, max drawdown, liquidité)
+- Implémenter NSGA-II et NSGA-III pour générer la frontière de Pareto
+- Visualiser la frontière de Pareto en 2D/3D avec sélection interactive
+- Comparer avec les méthodes de scalarisation classiques (weighted sum)
+
+**Technologies pertinentes**
+- Python avec pymoo ou DEAP pour les algorithmes multi-objectifs
+- Pandas et yfinance pour les données financières
+- Plotly pour la visualisation 3D interactive de la frontière Pareto
+- scikit-learn pour les métriques ESG et de risque
+
+---
+
+### 53. Optimisation de la gestion de trésorerie (Cash Flow Scheduling)
+
+**Description du problème et contexte**
+La gestion optimale de la trésorerie d'entreprise implique de planifier les paiements et encaissements pour maximiser le rendement des liquidités tout en respectant les contraintes de solvabilité. Ce problème de scheduling financier avec fenêtres temporelles se modélise naturellement en programmation par contraintes avec des variables de timing et des contraintes de flux cumulatif.
+
+**Références multiples**
+- **Bi-objective** : [A New Bi-Objective Model for Resource-Constrained Project Scheduling with Cash Flow](https://arxiv.org/abs/2509.00002) - arXiv 2025
+- **Risk-averse** : [A risk-averse distributionally robust model for cash flow management](https://www.sciencedirect.com/science/article/pii/S0377221724003965) - European Journal of OR 2024
+- **Simulated Annealing** : [Simulated annealing for centralised multiproject scheduling with cash flow](https://link.springer.com/article/10.1007/s10479-023-05580-3) - Annals of OR 2023
+- **Vendor Payments** : [A Cash Flow Optimization Model for Aligning Vendor Payments](https://www.irejournals.com/paper-details/1709383) - IRE Journals
+
+**Approches suggérées**
+- Modéliser les paiements comme tâches avec fenêtres temporelles et contraintes de précédence
+- Implémenter des contraintes de solde minimum et limites de crédit
+- Développer une fonction objectif multi-critères (coût de financement, retards, escomptes)
+- Utiliser métaheuristiques (recuit simulé) ou CSP pour la résolution
+
+**Technologies pertinentes**
+- Python avec OR-Tools CP-SAT pour le scheduling sous contraintes
+- Pandas pour la gestion des flux de trésorerie
+- PuLP ou Gurobi pour la formulation MILP alternative
+- Streamlit pour un tableau de bord de gestion de trésorerie
+
+---
+
+### 54. IA Neuro-Symbolique pour la Finance (Hybrid AI)
+
+**Description du problème et contexte**
+L'IA neuro-symbolique combine les forces des réseaux de neurones (apprentissage à partir de données) et de l'IA symbolique (raisonnement explicable, intégration de connaissances expertes). En finance, cette approche hybride permet de créer des systèmes qui apprennent des patterns complexes tout en respectant des règles métier explicites et en fournissant des explications auditables.
+
+**Références multiples**
+- **SmythOS** : [Symbolic AI in Finance: Transforming Risk Management](https://smythos.com/managers/finance/symbolic-ai-in-finance/) - SmythOS
+- **Neuro-Symbolic AML** : [Neuro-Symbolic AI: Finance's Edge in Fraud and Compliance](https://www.linkedin.com/pulse/neuro-symbolic-ai-finances-edge-fraud-compliance-leo-akin-odutola-tf7pc) - LinkedIn 2025
+- **Capgemini** : [Teaming up AI capabilities for fraud prevention](https://www.capgemini.com/insights/expert-perspectives/mulder-and-scully-for-fraud-prevention-teaming-up-ai-capabilities/) - Capgemini
+- **Hybrid Detection** : [Detecting Financial Fraud with Hybrid Deep Learning](https://arxiv.org/pdf/2504.03750) - arXiv 2025
+
+**Approches suggérées**
+- Combiner un réseau de neurones pour la détection de patterns avec un système de règles métier
+- Implémenter une architecture où les règles symboliques contraignent ou guident l'apprentissage
+- Développer un système d'explication qui traduit les prédictions en raisonnements logiques
+- Appliquer à un cas d'usage financier (fraude, crédit, trading)
+
+**Technologies pertinentes**
+- Python avec PyTorch pour les réseaux de neurones
+- PyKE ou CLIPS pour le moteur de règles symboliques
+- NeuralLP ou Neural Theorem Provers pour l'intégration
+- SHAP/LIME pour connecter les explications aux règles
+
