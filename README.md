@@ -17,7 +17,7 @@ l’ILP permet d’apprendre des **règles logiques interprétables**
 
 Les datasets utilisés sont trop volumineux pour être déposés ici. Veuillez vous rendre
 sur le lien suivant :
-https://www.kaggle.com/datasets/ealtman2019/ibm-transactions-for-anti-money-laundering-aml?
+https://www.kaggle.com/datasets/ealtman2019/ibm-transactions-for-anti-money-laundering-aml
 et téléchargez "HI-Small_Trans.csv" et "LI-Small_Trans.csv". Pensez à les placer dans le même
 dossier que le reste du projet.
 Vous êtes maintenant prêt à démarrer !
