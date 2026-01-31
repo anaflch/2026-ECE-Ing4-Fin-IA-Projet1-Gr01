@@ -1,102 +1,140 @@
-# Scoring de crédit équitable par optimisation sous contraintes
+📊 Scoring de crédit équitable par optimisation sous contraintes
 
-## 📌 Contexte et objectif
-Les systèmes de scoring de crédit basés sur des modèles statistiques ou de machine learning
-sont largement utilisés pour automatiser les décisions d’octroi de crédit.
-Cependant, ces systèmes peuvent produire des décisions biaisées à l’encontre de certains groupes
-(même lorsque les variables sensibles ne sont pas explicitement utilisées).
+1. Contexte et objectif du projet
 
-L’objectif de ce projet est d’étudier ces biais et de proposer des méthodes permettant
-d’intégrer des contraintes d’équité directement dans le processus de décision,
-en formulant le problème comme une optimisation sous contraintes.
+Les systèmes de scoring de crédit sont aujourd’hui largement automatisés à l’aide de modèles de machine learning.
+Cependant, ces modèles peuvent reproduire ou amplifier des biais discriminatoires présents dans les données historiques, en défavorisant certains groupes (par exemple selon le sexe ou la nationalité).
 
----
+L’objectif de ce projet est de :
 
-## 🎯 Problématique
-À partir d’un score de risque de crédit, une règle de décision simple (par exemple un seuil global)
-peut engendrer des disparités importantes entre groupes protégés.
+Concevoir un système d’intelligence artificielle de scoring de crédit intégrant explicitement des contraintes d’équité, afin de contrôler et quantifier le compromis entre performance prédictive et non-discrimination.
 
-Nous cherchons à répondre aux questions suivantes :
-- Comment mesurer l’inéquité dans une décision automatique ?
-- Peut-on réduire ces inégalités sans dégrader excessivement la performance globale ?
-- Quel est le coût mesurable de l’équité dans un système de décision financière ?
+⸻
 
----
+2. Problématique étudiée
 
-## 🧠 Méthodologie
+Le projet répond à la question suivante :
 
-Le projet est structuré en quatre étapes principales :
+Comment intégrer formellement des contraintes d’équité dans un modèle de scoring de crédit, tout en conservant des performances prédictives acceptables ?
 
-### 1️⃣ Baseline naïve
-- Construction d’un score de risque de crédit interprétable à partir de variables financières.
-- Application d’un seuil global unique pour décider de l’acceptation ou du refus d’un crédit.
-- Observation d’un biais massif via la parité démographique (Demographic Parity).
+Pour cela, le problème est formulé comme une optimisation sous contraintes, où les métriques d’équité (Demographic Parity, Equalized Odds) sont imposées directement lors de l’apprentissage du modèle.
 
-📓 Notebook : `01_baseline.ipynb`
+⸻
 
----
+3. Jeu de données
 
-### 2️⃣ In-processing équitable (optimisation sous contrainte)
-- Conservation du score de risque initial.
-- Optimisation de la politique de décision sous une contrainte d’équité :
-  
-  \[
-  |P(\text{accepté} \mid sexe = 0) - P(\text{accepté} \mid sexe = 1)| \le \varepsilon
-  \]
+Le projet utilise un jeu de données clients réaliste (clients.csv) contenant :
 
-- Utilisation de seuils différenciés par groupe pour rendre le problème faisable.
-- Analyse de l’impact de la contrainte sur la performance globale.
+🔹 Variable cible
+	•	default : défaut de paiement (0 = non, 1 = oui)
 
-📓 Notebook : `02_fair_inprocessing.ipynb`
+🔹 Attribut sensible
+	•	sex : utilisé pour mesurer et contraindre l’équité du modèle
 
----
+🔹 Variables explicatives
+	•	Données financières : income, credit_amount, loan_duration
+	•	Stabilité professionnelle : employment_years
+	•	Situation personnelle : marital_status, housing_status, dependents
+	•	Niveau d’éducation : education_level
 
-### 3️⃣ Post-processing équitable
-- Correction a posteriori des décisions sans modifier le score.
-- Ajustement naïf des seuils par groupe afin de réduire les disparités.
-- Comparaison avec l’approche d’in-processing.
-
-📓 Notebook : `03_postprocessing.ipynb`
-
----
-
-### 4️⃣ Analyse du compromis équité / performance
-- Étude de l’impact du paramètre de tolérance à l’inéquité (ε).
-- Mise en évidence d’un compromis non linéaire entre équité et performance.
-- Identification d’une zone optimale où une légère tolérance permet
-  de conserver une performance élevée tout en réduisant fortement les biais.
-
-📓 Notebook : `04_tradeoff_analysis.ipynb`
-
----
-
-## 📊 Résultats clés
-
-- La baseline produit un biais important entre les groupes.
-- Une contrainte d’équité stricte peut fortement réduire la performance globale.
-- Un léger relâchement de la contrainte permet d’atteindre une performance proche de l’optimum,
-  tout en limitant fortement les disparités.
-- L’in-processing offre un meilleur compromis équité / performance que le post-processing.
-
-Ces résultats montrent que l’équité a un coût mesurable,
-mais qu’une intégration intelligente des contraintes permet de limiter ce coût.
-
----
-
-## 📁 Structure du dépôt
+La colonne name est supprimée lors du pré-traitement car elle ne contient aucune information utile pour la prédiction.
 
 FCC/
+├── src/
+│   ├── config.py           # Configuration (chemins, colonnes)
+│   ├── preprocessing.py    # Pré-traitement des données
+│   ├── models.py           # Modèles ML de base
+│   ├── fairness.py         # Contraintes d’équité (Fairlearn)
+│   ├── evaluate.py         # Métriques de performance et d’équité
+│   ├── explain.py          # Explicabilité (SHAP)
+│   ├── main.py             # Point d’entrée du projet
+│   └── plot_results.py     # Génération des graphiques
 ├── data/
-│ └── raw/ # Données synthétiques de clients
-├── notebooks/
-│ ├── 01_baseline.ipynb
-│ ├── 02_fair_inprocessing.ipynb
-│ ├── 03_postprocessing.ipynb
-│ └── 04_tradeoff_analysis.ipynb
-├── src/ # Fonctions utilitaires (chargement, métriques)
-├── requirements.txt
-└── README.md
+│   ├── raw/clients.csv
+│   └── processed/results.json
+└── requirements.txt
 
+5. Approche méthodologique
+
+5.1 Modèle de base (baseline)
+
+Un modèle de régression logistique est entraîné sans contrainte d’équité.
+
+Objectif :
+	•	Maximiser la performance prédictive (accuracy, AUC)
+	•	Servir de point de comparaison
+
+Ce modèle est performant, mais présente des différences de traitement entre groupes.
+
+⸻
+
+5.2 Mesure de l’équité
+
+Les métriques suivantes sont utilisées :
+	•	Demographic Parity Difference (DP)
+Différence de taux d’acceptation entre groupes
+	•	Equalized Odds Difference (EO)
+Différence de faux positifs et faux négatifs entre groupes
+
+Ces métriques permettent de quantifier objectivement la discrimination du modèle.
+
+⸻
+
+5.3 Modèles équitables (in-processing)
+
+L’équité est intégrée directement dans l’apprentissage grâce à la librairie Fairlearn, via l’algorithme :
+	•	Exponentiated Gradient Reduction
+
+Deux contraintes sont étudiées :
+	•	Demographic Parity
+	•	Equalized Odds
+
+Le paramètre epsilon contrôle le niveau de tolérance à la violation de l’équité.
+
+⸻
+
+5.4 Analyse du compromis équité / performance
+
+Le projet fait varier epsilon afin d’observer :
+	•	la réduction progressive des biais
+	•	l’impact sur la performance prédictive
+
+Cette analyse permet de montrer que l’équité est un choix de gouvernance, et non une propriété binaire.
+
+⸻
+
+6. Résultats principaux
+
+Un fichier results.json est généré automatiquement et contient :
+	•	performances (accuracy, AUC)
+	•	métriques d’équité (dp_diff, eo_diff)
+	•	métriques par groupe
+
+Des graphiques sont produits :
+	•	Trade-off AUC vs epsilon
+	•	Trade-off Demographic Parity vs epsilon
+	•	Taux d’acceptation par groupe (baseline vs modèles équitables)
+
+🔍 Observation clé
+	•	Le modèle de base est le plus performant mais le plus discriminant
+	•	Les modèles équitables réduisent fortement les biais
+	•	La perte de performance reste modérée et contrôlable
+
+⸻
+8. Installation et exécution
+
+Création de l’environnement virtuel :
+    python3 -m venv .venv
+    source .venv/bin/activate
+
+Installation des dépendances :
+    pip install -r FCC/requirements.txt
+
+Lancement du projet :
+    python -m FCC.src.main
+
+Génération des graphiques :
+    python -m FCC.src.plot_results
 
 ---
 
