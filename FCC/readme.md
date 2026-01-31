@@ -1,4 +1,4 @@
-📊 Scoring de crédit équitable par optimisation sous contraintes
+Scoring de crédit équitable par optimisation sous contraintes
 
 1. Contexte et objectif du projet
 
