@@ -205,5 +205,6 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+.DS_Store
 groupe-09-wordle-csp/src/codePython311/
 
