@@ -1,0 +1,353 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<title>SWI-Prolog 10.0.0 Reference Manual: Section A.17</title><link rel="home" href="index.html">
+<link rel="contents" href="Contents.html">
+<link rel="index" href="DocIndex.html">
+<link rel="summary" href="summary.html">
+<link rel="previous" href="error.html">
+<link rel="next" href="fastrw.html">
+
+<style type="text/css">
+
+/* Style sheet for SWI-Prolog latex2html
+*/
+
+dd.defbody
+{ margin-bottom: 1em;
+}
+
+dt.pubdef, dt.multidef
+{ color: #fff;
+padding: 2px 10px 0px 10px;
+margin-bottom: 5px;
+font-size: 18px;
+vertical-align: middle;
+overflow: hidden;
+}
+
+dt.pubdef { background-color: #0c3d6e; }
+dt.multidef { background-color: #ef9439; }
+
+.bib dd
+{ margin-bottom: 1em;
+}
+
+.bib dt
+{ float: left;
+margin-right: 1.3ex;
+}
+
+pre.code
+{ margin-left: 1.5em;
+margin-right: 1.5em;
+border: 1px dotted;
+padding-top: 5px;
+padding-left: 5px;
+padding-bottom: 5px;
+background-color: #f8f8f8;
+}
+
+div.navigate
+{ text-align: center;
+background-color: #f0f0f0;
+border: 1px dotted;
+padding: 5px;
+}
+
+div.title
+{ text-align: center;
+padding-bottom: 1em;
+font-size: 200%;
+font-weight: bold;
+}
+
+div.author
+{ text-align: center;
+font-style: italic;
+}
+
+div.abstract
+{ margin-top: 2em;
+background-color: #f0f0f0;
+border: 1px dotted;
+padding: 5px;
+margin-left: 10%; margin-right:10%;
+}
+
+div.abstract-title
+{ text-align: center;
+padding: 5px;
+font-size: 120%;
+font-weight: bold;
+}
+
+div.toc-h1
+{ font-size: 200%;
+font-weight: bold;
+}
+
+div.toc-h2
+{ font-size: 120%;
+font-weight: bold;
+margin-left: 2em;
+}
+
+div.toc-h3
+{ font-size: 100%;
+font-weight: bold;
+margin-left: 4em;
+}
+
+div.toc-h4
+{ font-size: 100%;
+margin-left: 6em;
+}
+
+span.sec-nr
+{
+}
+
+span.sec-title
+{
+}
+
+span.pred-ext
+{ font-weight: bold;
+}
+
+span.pred-tag
+{ float: right;
+padding-top: 0.2em;
+font-size: 80%;
+font-style: italic;
+color: #fff;
+}
+
+div.caption
+{ width: 80%;
+margin: auto;
+text-align:center;
+}
+
+/* Footnotes */
+.fn {
+color: red;
+font-size: 70%;
+}
+
+.fn-text, .fnp {
+position: absolute;
+top: auto;
+left: 10%;
+border: 1px solid #000;
+box-shadow: 5px 5px 5px #888;
+display: none;
+background: #fff;
+color: #000;
+margin-top: 25px;
+padding: 8px 12px;
+font-size: larger;
+}
+
+sup:hover span.fn-text
+{ display: block;
+}
+
+/* Lists */
+
+dl.latex
+{ margin-top: 1ex;
+margin-bottom: 0.5ex;
+}
+
+dl.latex dl.latex dd.defbody
+{ margin-bottom: 0.5ex;
+}
+
+/* PlDoc Tags */
+
+dl.tags
+{ font-size: 90%;
+margin-left: 5ex;
+margin-top: 1ex;
+margin-bottom: 0.5ex;
+}
+
+dl.tags dt
+{ margin-left: 0pt;
+font-weight: bold;
+}
+
+dl.tags dd
+{ margin-left: 3ex;
+}
+
+td.param
+{ font-style: italic;
+font-weight: bold;
+}
+
+/* Index */
+
+dt.index-sep
+{ font-weight: bold;
+font-size: +1;
+margin-top: 1ex;
+}
+
+/* Tables */
+
+table.center
+{ margin: auto;
+}
+
+table.latex
+{ border-collapse:collapse;
+}
+
+table.latex tr
+{ vertical-align: text-top;
+}
+
+table.latex td,th
+{ padding: 2px 1em;
+}
+
+table.latex tr.hline td,th
+{ border-top: 1px solid black;
+}
+
+table.frame-box
+{ border: 2px solid black;
+}
+
+</style>
+</head>
+<body style="background:white">
+<div class="navigate"><a class="nav" href="index.html"><img src="home.gif" alt="Home"></a>
+<a class="nav" href="Contents.html"><img src="index.gif" alt="Contents"></a>
+<a class="nav" href="DocIndex.html"><img src="yellow_pages.gif" alt="Index"></a>
+<a class="nav" href="summary.html"><img src="info.gif" alt="Summary"></a>
+<a class="nav" href="error.html"><img src="prev.gif" alt="Previous"></a>
+<a class="nav" href="fastrw.html"><img src="next.gif" alt="Next"></a>
+</div>
+<h2 id="sec:exceptions"><a id="sec:A.17"><span class="sec-nr">A.17</span> <span class="sec-title">library(exceptions): 
+Exception classification</span></a></h2>
+
+<p><a id="sec:exceptions"></a>
+
+<p>Prolog <a class="pred" href="exception.html#catch/3">catch/3</a> 
+selects errors based on unification. This is problematic for two 
+reasons. First, one typically wants the exception term to be more 
+specific than the term passed to the 2nd (<var>Ball</var>) argument of
+<a class="pred" href="exception.html#catch/3">catch/3</a>. Second, in 
+many situations one wishes to select multiple errors that may be raised 
+by some operations, but let the others pass. Unification is often not 
+suitable for this. For example, <a class="pred" href="IO.html#open/3">open/3</a> 
+can raise an <i>existence_error</i> or a <i>permission_error</i> (and a 
+couple more), but <i>existence_error</i> are also raised on, for 
+example, undefined procedures. This is very hard to specify, Below is an 
+attempt that still assumes nothing throws <code>error(_,_)</code>.
+
+<pre class="code">
+    catch(open(...), error(Formal,ImplDefined),
+          (   ( Formal = existence_error(source_sink,_)
+              ; Formal = permission_error(open, source_sink, _)
+              )
+          -&gt;  &lt;handle&gt;
+          ;   throw(Formal, ImplDefined)
+          )),
+    ...
+</pre>
+
+<p>Besides being hard to specify, actual Prolog systems define a large 
+number of additional error terms because there is no reasonable ISO 
+exception defined. For example, SWI-Prolog <a class="pred" href="IO.html#open/3">open/3</a> 
+may raise
+<code>resource_error(max_files)</code> if the maximum number of file 
+handles of the OS is exceeded.
+
+<p>As a result, we see a lot of Prolog code in the wild that simply uses 
+the construct below to simply fail. But, this may fail for lack of stack 
+space, a programmer error that causes a type error, etc. This both makes 
+it much harder to debug the code and provide meaningful feedback to the 
+user of the application.
+
+<pre class="code">
+    catch(Goal, _, fail)
+</pre>
+
+<p>Many programing languages have their exceptions organised by a 
+(class) hierarchy. Prolog has no hierarchy of terms. We introduce <a class="pred" href="exceptions.html#exception/2">exception/2</a> 
+as exception(+Type, ?Term), which can both be used as a type test for an 
+exception term and as a <i>constraint</i> for the <var>Ball</var> of <a class="pred" href="exception.html#catch/3">catch/3</a>. 
+Using a predicate we can express abstractions over concrete exception 
+terms with more flexibility than a hierarchy. Using a <i>multifile</i> 
+predicate, libraries can add their exceptions to defined types or 
+introduce new types.
+
+<p>The predicate <a class="pred" href="exceptions.html#catch/4">catch/4</a> 
+completes the interface.
+
+<dl class="latex">
+<dt class="pubdef"><a id="catch/4"><strong>catch</strong>(<var>:Goal, 
++ExceptionType, ?Ball, :Recover</var>)</a></dt>
+<dd class="defbody">
+As <a class="pred" href="exception.html#catch/3">catch/3</a>, only 
+catching exceptions for which
+<code>exception(ErrorType,Ball)</code> is true. See <span class="pred-ext">error/2</span>. 
+For example, the code below properly informs the user some file could 
+not be processed due do some issue with <var>File</var>, while 
+propagating on all other reasons while <span class="pred-ext">process/1</span> 
+could not be executed.
+
+<pre class="code">
+    catch(process(File), file_error, Ball,
+          file_not_processed(File, Ball))
+
+file_not_processed(File, Ball) :-
+    message_to_string(Ball, Msg),
+    format(user_error, 'Could not process ~p: ~s', [File, Msg]).
+</pre>
+
+</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="exception/2"><strong>exception</strong>(<var>:Type, 
+--Ball</var>)</a></dt>
+<dt class="pubdef"><span class="pred-tag">[semidet]</span><a id="exception/2"><strong>exception</strong>(<var>:Type, 
++Ball</var>)</a></dt>
+<dd class="defbody">
+If <var>Ball</var> is unbound, adds a delayed goal that tests the error 
+belongs to <var>Type</var> when <var>Ball</var> is instantiated (by <a class="pred" href="exception.html#catch/3">catch/3</a>). 
+Else succeed is error is of the specified <var>Type</var>.
+
+<p>Note that the delayed goal is added using <a class="pred" href="coroutining.html#freeze/2">freeze/2</a> 
+and therefore the stepwise instantiation of <var>Ball</var> does not 
+work, e.g.
+<code>exception(file_error, error(Formal,_))</code> immediately fails.
+
+<p>Error types may be defined or extended (e.g., by libraries) by adding 
+clauses to the multifile predicates <a class="pred" href="exceptions.html#error_term/2">error_term/2</a> 
+and
+<a class="pred" href="exceptions.html#exception_term/2">exception_term/2</a>. <i>Modules</i> 
+may (re-)define local error types using the <a class="pred" href="exceptions.html#exception_type/2">exception_type/2</a> 
+directive.</dd>
+<dt class="multidef"><span class="pred-tag">[nondet,multifile]</span><a id="error_term/2"><strong>error_term</strong>(<var>?Type, 
+?Term</var>)</a></dt>
+<dd class="defbody">
+Describe the formal part of <code>error(Formal,ImplDefined)</code> 
+exceptions.</dd>
+<dt class="multidef"><span class="pred-tag">[nondet,multifile]</span><a id="exception_term/2"><strong>exception_term</strong>(<var>?Type, 
+?Term</var>)</a></dt>
+<dd class="defbody">
+Describe exceptions that are not <code>error(Formal, _)</code> terms.</dd>
+<dt class="pubdef"><a id="exception_type/2"><strong>exception_type</strong>(<var>+Type, 
++Term</var>)</a></dt>
+<dd class="defbody">
+Declare all exceptions subsumed by <var>Term</var> to be an exception of <var>Type</var>. 
+This declaration is module specific.
+</dd>
+</dl>
+
+<p></body></html>

@@ -1,0 +1,1485 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+<title>SWI-Prolog JSON library</title>
+<style type="text/css">
+
+/* Style sheet for SWI-Prolog latex2html
+*/
+
+dd.defbody
+{ margin-bottom: 1em;
+}
+
+dt.pubdef, dt.multidef
+{ color: #fff;
+padding: 2px 10px 0px 10px;
+margin-bottom: 5px;
+font-size: 18px;
+vertical-align: middle;
+overflow: hidden;
+}
+
+dt.pubdef { background-color: #0c3d6e; }
+dt.multidef { background-color: #ef9439; }
+
+.bib dd
+{ margin-bottom: 1em;
+}
+
+.bib dt
+{ float: left;
+margin-right: 1.3ex;
+}
+
+pre.code
+{ margin-left: 1.5em;
+margin-right: 1.5em;
+border: 1px dotted;
+padding-top: 5px;
+padding-left: 5px;
+padding-bottom: 5px;
+background-color: #f8f8f8;
+}
+
+div.navigate
+{ text-align: center;
+background-color: #f0f0f0;
+border: 1px dotted;
+padding: 5px;
+}
+
+div.title
+{ text-align: center;
+padding-bottom: 1em;
+font-size: 200%;
+font-weight: bold;
+}
+
+div.author
+{ text-align: center;
+font-style: italic;
+}
+
+div.abstract
+{ margin-top: 2em;
+background-color: #f0f0f0;
+border: 1px dotted;
+padding: 5px;
+margin-left: 10%; margin-right:10%;
+}
+
+div.abstract-title
+{ text-align: center;
+padding: 5px;
+font-size: 120%;
+font-weight: bold;
+}
+
+div.toc-h1
+{ font-size: 200%;
+font-weight: bold;
+}
+
+div.toc-h2
+{ font-size: 120%;
+font-weight: bold;
+margin-left: 2em;
+}
+
+div.toc-h3
+{ font-size: 100%;
+font-weight: bold;
+margin-left: 4em;
+}
+
+div.toc-h4
+{ font-size: 100%;
+margin-left: 6em;
+}
+
+span.sec-nr
+{
+}
+
+span.sec-title
+{
+}
+
+span.pred-ext
+{ font-weight: bold;
+}
+
+span.pred-tag
+{ float: right;
+padding-top: 0.2em;
+font-size: 80%;
+font-style: italic;
+color: #fff;
+}
+
+div.caption
+{ width: 80%;
+margin: auto;
+text-align:center;
+}
+
+/* Footnotes */
+.fn {
+color: red;
+font-size: 70%;
+}
+
+.fn-text, .fnp {
+position: absolute;
+top: auto;
+left: 10%;
+border: 1px solid #000;
+box-shadow: 5px 5px 5px #888;
+display: none;
+background: #fff;
+color: #000;
+margin-top: 25px;
+padding: 8px 12px;
+font-size: larger;
+}
+
+sup:hover span.fn-text
+{ display: block;
+}
+
+/* Lists */
+
+dl.latex
+{ margin-top: 1ex;
+margin-bottom: 0.5ex;
+}
+
+dl.latex dl.latex dd.defbody
+{ margin-bottom: 0.5ex;
+}
+
+/* PlDoc Tags */
+
+dl.tags
+{ font-size: 90%;
+margin-left: 5ex;
+margin-top: 1ex;
+margin-bottom: 0.5ex;
+}
+
+dl.tags dt
+{ margin-left: 0pt;
+font-weight: bold;
+}
+
+dl.tags dd
+{ margin-left: 3ex;
+}
+
+td.param
+{ font-style: italic;
+font-weight: bold;
+}
+
+/* Index */
+
+dt.index-sep
+{ font-weight: bold;
+font-size: +1;
+margin-top: 1ex;
+}
+
+/* Tables */
+
+table.center
+{ margin: auto;
+}
+
+table.latex
+{ border-collapse:collapse;
+}
+
+table.latex tr
+{ vertical-align: text-top;
+}
+
+table.latex td,th
+{ padding: 2px 1em;
+}
+
+table.latex tr.hline td,th
+{ border-top: 1px solid black;
+}
+
+table.frame-box
+{ border: 2px solid black;
+}
+
+</style>
+</head>
+<body style="background:white"> 
+<div class="title">SWI-Prolog JSON library</div>
+<div class="author">Jan Wielemaker <br>
+SWI-Prolog Solutions b.v. <br>
+The Netherlands <br>
+E-mail: <a class="url" href="mailto:jan@swi-prolog.org">jan@swi-prolog.org</a></div>
+<div class="abstract">
+<div class="abstract-title">Abstract</div> This package reads and writes 
+JSON documents from and to SWI-Prolog streams, files and strings.
+</div>
+
+<h1><a id="document-contents">Table of Contents</a></h1>
+
+<div class="toc">
+<div class="toc-h2"><a class="sec" href="#sec:1"><span class="sec-nr">1</span> <span class="sec-title">Supporting 
+JSON</span></a></div>
+<div class="toc-h3"><a class="sec" href="#sec:1.1"><span class="sec-nr">1.1</span> <span class="sec-title">library(json): 
+Reading and writing JSON serialization</span></a></div>
+<div class="toc-h3"><a class="sec" href="#sec:1.2"><span class="sec-nr">1.2</span> <span class="sec-title">library(json_schema): 
+JSON Schema reader and validator</span></a></div>
+<div class="toc-h4"><a class="sec" href="#sec:1.2.1"><span class="sec-nr">1.2.1</span> <span class="sec-title">Status</span></a></div>
+<div class="toc-h4"><a class="sec" href="#sec:1.2.2"><span class="sec-nr">1.2.2</span> <span class="sec-title">Predicates</span></a></div>
+<div class="toc-h3"><a class="sec" href="#sec:1.3"><span class="sec-nr">1.3</span> <span class="sec-title">library(json_rpc_client): 
+JSON RPC client</span></a></div>
+<div class="toc-h3"><a class="sec" href="#sec:1.4"><span class="sec-nr">1.4</span> <span class="sec-title">library(json_rpc_server): 
+JSON RPC Server</span></a></div>
+<div class="toc-h3"><a class="sec" href="#sec:1.5"><span class="sec-nr">1.5</span> <span class="sec-title">library(json_convert): 
+Convert between JSON terms and Prolog application terms</span></a></div>
+<div class="toc-h3"><a class="sec" href="#sec:1.6"><span class="sec-nr">1.6</span> <span class="sec-title">library(http/http_json): 
+HTTP JSON Plugin module</span></a></div>
+</div>
+
+<p><h2 id="sec:jsonsupport"><a id="sec:1"><span class="sec-nr">1</span> <span class="sec-title">Supporting 
+JSON</span></a></h2>
+
+<p><a id="sec:jsonsupport"></a>
+
+<p>From <a class="url" href="http://json.org">http://json.org</a>, " 
+JSON (JavaScript Object Notation) is a lightweight data-interchange 
+format. It is easy for humans to read and write. It is easy for machines 
+to parse and generate. It is based on a subset of the JavaScript 
+Programming Language, Standard ECMA-262 3rd Edition - December 1999. 
+JSON is a text format that is completely language independent but uses 
+conventions that are familiar to programmers of the C-family of 
+languages, including C, C++, C#, Java, JavaScript, Perl, Python, and 
+many others. These properties make JSON an ideal data-interchange 
+language."
+
+<p>Although JSON is nowadays used a lot outside the context of web 
+applications, SWI-Prolog's support for JSON started life as part of the 
+HTTP package. SWI-Prolog supports two Prolog representations for JSON 
+terms. The first and oldest map JSON objects to a term
+<code>json(PropertyList)</code> and use the <code>@</code> functor to 
+disambiguate e.g. <code>null</code> from the string <code>"null"</code>, 
+leading to <code>@(null)</code>. As of SWI-Prolog version 7, JSON 
+objects may be represented using <i>dict</i> objects and JSON strings 
+using Prolog strings. Predicates following this convention are suffixed 
+with <code>_dict</code>, e.g. <a class="pred" href="#json_read_dict/2">json_read_dict/2</a>. 
+For example, given the JSON document
+
+<pre class="code">
+{ "name": "Bob", "children": ["Mary", "John"], "age":42, "married": true }
+</pre>
+
+<p>we get either (using <a class="pred" href="#json_read/2">json_read/2</a>):
+
+<pre class="code">
+json([name='Bob', children=['Mary', 'John'], age=42, married= @(true)]).
+</pre>
+
+<p>or (using <a class="pred" href="#json_read_dict/2">json_read_dict/2</a>):
+
+<pre class="code">
+#{age:42, children:["Mary", "John"], married:true, name:"Bob"}
+</pre>
+
+<p>The SWI-Prolog JSON interface consists of the following libraries:
+
+<p>
+<ul class="latex">
+<li><code>library(json)</code> provides support for the core JSON object 
+serialization and parsing.
+<li><code>library(json_schema)</code> implements JSON schema validation.
+<li><code>library(json_convert)</code> converts between the primary 
+representation of JSON terms in Prolog and more application oriented 
+Prolog terms. E.g. <code>point(X,Y)</code> vs. <code>object([x=X,y=Y])</code>.
+<li><code>library(http/http_json)</code> hooks the conversion libraries 
+into the HTTP client and server libraries.
+
+<p><h3 id="sec:json"><a id="sec:1.1"><span class="sec-nr">1.1</span> <span class="sec-title">library(json): 
+Reading and writing JSON serialization</span></a></h3>
+
+<p><a id="sec:json"></a>
+
+<dl class="tags">
+<dt class="mtag">See also</dt>
+<dd>
+- <code>http_json.pl</code> links JSON to the HTTP client and server 
+modules. <br>
+- <code>json_convert.pl</code> converts JSON Prolog terms to more 
+comfortable terms.
+</dd>
+</dl>
+
+<p>This module supports reading and writing JSON objects. This library 
+supports two Prolog representations (the <i>new</i> representation is 
+only supported in SWI-Prolog version 7 and later):
+
+<p>
+<ul class="latex">
+<li>The <b>classical</b> representation is provided by <a class="pred" href="#json_read/3">json_read/3</a> 
+and
+<a class="pred" href="#json_write/3">json_write/3</a>. This represents a 
+JSON object as <code>json(NameValueList)</code>, a JSON string as an 
+atom and the JSON constants <code>null</code>, <code>true</code> and
+<code>false</code> as @(null), @(true) and @false.
+<li>The <b>new</b> representation is provided by <a class="pred" href="#json_read_dict/3">json_read_dict/3</a> 
+and
+<a class="pred" href="#json_write_dict/3">json_write_dict/3</a>. This 
+represents a JSON object as a dict, a JSON string as a Prolog string and 
+the JSON constants using the Prolog atoms <code>null</code>, <code>true</code> 
+and <code>false</code>.
+</ul>
+
+<p>This module provides the <code>json</code> <i>Quasi Quotation</i> 
+syntax that allows for embedding JSON documents in Prolog.
+
+<dl class="latex">
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="atom_json_term/3"><strong>atom_json_term</strong>(<var>?Atom, 
+?JSONTerm, +Options</var>)</a></dt>
+<dd class="defbody">
+Convert between textual representation and a JSON term. In
+<i>write</i> mode (<var>JSONTerm</var> to <var>Atom</var>), the option
+
+<dl class="latex">
+<dt><strong>as</strong>(<var>Type</var>)</dt>
+<dd class="defbody">
+defines the output type, which is one of <code>atom</code> (default),
+<code>string</code>, <code>codes</code> or <code>chars</code>.
+</dd>
+</dl>
+
+</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_read/2"><strong>json_read</strong>(<var>+Stream, 
+-Term</var>)</a></dt>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_read/3"><strong>json_read</strong>(<var>+Stream, 
+-Term, +Options</var>)</a></dt>
+<dd class="defbody">
+Read next JSON value from <var>Stream</var> into a Prolog term. The 
+canonical representation for <var>Term</var> is:
+
+<p>
+<ul class="latex">
+<li>A JSON object is mapped to a term <code>json(NameValueList)</code>, 
+where NameValueList is a list of Name=Value. Name is an atom created 
+from the JSON string.
+<li>A JSON array is mapped to a Prolog list of JSON values.
+<li>A JSON string is mapped to a Prolog atom
+<li>A JSON number is mapped to a Prolog number
+<li>The JSON constants <code>true</code> and <code>false</code> are 
+mapped -like JPL- to @(true) and @(false).
+<li>The JSON constant <code>null</code> is mapped to the Prolog term 
+@(null)
+</ul>
+
+<p>Here is a complete example in JSON and its corresponding Prolog term.
+
+<pre class="code">
+{ "name":"Demo term",
+  "created": {
+    "day":null,
+    "month":"December",
+    "year":2007
+  },
+  "confirmed":true,
+  "members":[1,2,3]
+}
+</pre>
+
+<pre class="code">
+json([ name='Demo term',
+       created=json([day= @null, month='December', year=2007]),
+       confirmed= @true,
+       members=[1, 2, 3]
+     ])
+</pre>
+
+<p>The following options are processed:
+
+<dl class="latex">
+<dt><strong>null</strong>(<var>+NullTerm</var>)</dt>
+<dd class="defbody">
+<var>Term</var> used to represent JSON <code>null</code>. Default 
+@(null)
+</dd>
+<dt><strong>true</strong>(<var>+TrueTerm</var>)</dt>
+<dd class="defbody">
+<var>Term</var> used to represent JSON <code>true</code>. Default 
+@(true)
+</dd>
+<dt><strong>false</strong>(<var>+FalseTerm</var>)</dt>
+<dd class="defbody">
+<var>Term</var> used to represent JSON <code>false</code>. Default 
+@(false)
+</dd>
+<dt><strong>end_of_file</strong>(<var>+ErrorOrTerm</var>)</dt>
+<dd class="defbody">
+If end of file is reached after skipping white space but before any 
+input is processed take the following action (default <code>error</code>):
+
+<p>
+<ul class="latex">
+<li>If <var>ErrorOrTerm</var> <code>==</code> <code>error</code>, throw 
+an unexpected end of file syntax error
+<li>Otherwise return <var>ErrorOrTerm</var>.
+</ul>
+
+<p>Returning an status term is required to process
+<a class="url" href="https://en.wikipedia.org/wiki/JSON_streaming\#Concatenated_JSON">Concatenated 
+JSON</a>. Suggested values are <code>@(eof)</code> or <code>end_of_file</code>.
+</dd>
+<dt><strong>value_string_as</strong>(<var>+Type</var>)</dt>
+<dd class="defbody">
+Prolog type used for strings used as value. Default is <code>atom</code>. 
+The alternative is <code>string</code>, producing a packed string 
+object. Please note that <code>codes</code> or <code>chars</code> would 
+produce ambiguous output and are therefore not supported.
+</dd>
+</dl>
+
+<dl class="tags">
+<dt class="tag">See also</dt>
+<dd>
+<a class="pred" href="#json_read_dict/3">json_read_dict/3</a> to read a 
+JSON term using the version 7 extended data types.
+</dd>
+</dl>
+
+</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_write/2"><strong>json_write</strong>(<var>+Stream, 
++Term</var>)</a></dt>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_write/3"><strong>json_write</strong>(<var>+Stream, 
++Term, +Options</var>)</a></dt>
+<dd class="defbody">
+Write a JSON term to <var>Stream</var>. The JSON object is of the same 
+format as produced by <a class="pred" href="#json_read/2">json_read/2</a>, 
+though we allow for some more flexibility with regard to pairs in 
+objects. All of Name=Value, Name-Value and Name(Value) produce the same 
+output.
+
+<p>Values can be of the form #(<var>Term</var>), which causes <var>Term</var> 
+to be
+<i>stringified</i> if it is not an atom or string. Stringification is 
+based on <span class="pred-ext">term_string/2</span>.
+
+<p>Rational numbers are emitted as floating point numbers. The hook
+<a class="pred" href="#json_write_hook/4">json_write_hook/4</a> can be 
+used to realize domain specific alternatives.
+
+<p>The version 7 <i>dict</i> type is supported as well. Optionally, if 
+the dict has a <i>tag</i>, a property "type":"tag" can be added to the 
+object. This behaviour can be controlled using the <code>tag</code> 
+option (see below). For example:
+
+<pre class="code">
+?- json_write(current_output, point{x:1,y:2}).
+{
+  "x":1,
+  "y":2
+}
+</pre>
+
+<pre class="code">
+?- json_write(current_output, point{x:1,y:2}, [tag(type)]).
+{
+  "type":"point",
+  "x":1,
+  "y":2
+}
+</pre>
+
+<p>In addition to the options recognised by <a class="pred" href="#json_read/3">json_read/3</a>, 
+we process the following options are recognised:
+
+<dl class="latex">
+<dt><strong>width</strong>(<var>+Width</var>)</dt>
+<dd class="defbody">
+<var>Width</var> in which we try to format the result. Too long lines 
+switch from <i>horizontal</i> to <i>vertical</i> layout for better 
+readability. If performance is critical and human readability is not an 
+issue use <var>Width</var> = 0, which causes a single-line output.
+</dd>
+<dt><strong>step</strong>(<var>+Step</var>)</dt>
+<dd class="defbody">
+Indentation increment for next level. Default is 2.
+</dd>
+<dt><strong>tab</strong>(<var>+TabDistance</var>)</dt>
+<dd class="defbody">
+Distance between tab-stops. If equal to Step, layout is generated with 
+one tab per level.
+</dd>
+<dt><strong>serialize_unknown</strong>(<var>+Boolean</var>)</dt>
+<dd class="defbody">
+If <code>true</code> (default <code>false</code>), serialize unknown 
+terms and print them as a JSON string. The default raises a type error. 
+Note that this option only makes sense if you can guarantee that the 
+passed value is not an otherwise valid Prolog representation of a Prolog 
+term.
+</dd>
+</dl>
+
+<p>If a string is emitted, the sequence <code>&lt;/</code> is emitted as
+<code>&lt;\/</code>. This is valid JSON syntax which ensures that JSON 
+objects can be safely embedded into an HTML <code>&lt;script&gt;</code> 
+element.</dd>
+<dt class="multidef"><span class="pred-tag">[semidet,multifile]</span><a id="json_write_hook/4"><strong>json_write_hook</strong>(<var>+Term, 
++Stream, +State, +Options</var>)</a></dt>
+<dd class="defbody">
+Hook that can be used to emit a JSON representation for <var>Term</var> 
+to
+<var>Stream</var>. If the predicate succeeds it <b>must</b> have written 
+a
+<b>valid</b> JSON data element and if it fails it may not have produced 
+any output. This facility may be used to map arbitrary Prolog terms to 
+JSON. It was added to manage the precision with which floating point 
+numbers are emitted.
+
+<p>Note that this hook is shared by all users of this library. It is 
+generally advised to map a unique compound term to avoid interference 
+with normal output.
+<table class="arglist">
+<tr><td><var>State</var> </td><td>and <var>Options</var> are opaque 
+handles to the current output state and settings. Future versions may 
+provide documented access to these terms. Currently it is advised to 
+ignore these arguments. </td></tr>
+</table>
+</dd>
+<dt class="multidef"><span class="pred-tag">[semidet,multifile]</span><a id="json_dict_pairs/2"><strong>json_dict_pairs</strong>(<var>+Dict, 
+-Pairs</var>)</a></dt>
+<dd class="defbody">
+This hook may be used to order the keys of an object. If it fails,
+<span class="pred-ext">dict_pairs/3</span> is used which produces an 
+ordered list of keys.</dd>
+<dt class="pubdef"><span class="pred-tag">[semidet]</span><a id="is_json_term/1"><strong>is_json_term</strong>(<var>@Term</var>)</a></dt>
+<dt class="pubdef"><span class="pred-tag">[semidet]</span><a id="is_json_term/2"><strong>is_json_term</strong>(<var>@Term, 
++Options</var>)</a></dt>
+<dd class="defbody">
+True if <var>Term</var> is a json term. <var>Options</var> are the same 
+as for
+<a class="pred" href="#json_read/2">json_read/2</a>, defining the Prolog 
+representation for the JSON
+<code>true</code>, <code>false</code> and <code>null</code> constants.</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_read_dict/2"><strong>json_read_dict</strong>(<var>+Stream, 
+-Dict</var>)</a></dt>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_read_dict/3"><strong>json_read_dict</strong>(<var>+Stream, 
+-Dict, +Options</var>)</a></dt>
+<dd class="defbody">
+Read a JSON object, returning objects as a dicts. The representation 
+depends on the options, where the default is:
+
+<p>
+<ul class="latex">
+<li>String values are mapped to Prolog strings
+<li>JSON <code>true</code>, <code>false</code> and <code>null</code> are 
+represented using these Prolog atoms.
+<li>JSON objects are mapped to dicts.
+<li>Optionally, a <code>type</code> field in an object assigns a tag for 
+the dict.
+</ul>
+
+<p>The predicate <a class="pred" href="#json_read_dict/3">json_read_dict/3</a> 
+processes the same options as
+<a class="pred" href="#json_read/3">json_read/3</a>, but with different 
+defaults. In addition, it processes the <code>tag</code> option. See <a class="pred" href="#json_read/3">json_read/3</a> 
+for details about the shared options.
+
+<dl class="latex">
+<dt><strong>tag</strong>(<var>+Name</var>)</dt>
+<dd class="defbody">
+When converting to/from a dict, map the indicated JSON attribute to the 
+dict <i>tag</i>. No mapping is performed if <var>Name</var> is the empty 
+atom (&rdquo; , default). See <a class="pred" href="#json_read_dict/2">json_read_dict/2</a> 
+and
+<a class="pred" href="#json_write_dict/2">json_write_dict/2</a>.
+</dd>
+<dt><strong>default_tag</strong>(<var>+Tag</var>)</dt>
+<dd class="defbody">
+Provide the default tag if the above <code>tag</code> option does not 
+apply.
+</dd>
+<dt><strong>null</strong>(<var>+NullTerm</var>)</dt>
+<dd class="defbody">
+Default the atom <code>null</code>.
+</dd>
+<dt><strong>true</strong>(<var>+TrueTerm</var>)</dt>
+<dd class="defbody">
+Default the atom <code>true</code>.
+</dd>
+<dt><strong>false</strong>(<var>+FalseTerm</var>)</dt>
+<dd class="defbody">
+Default the atom <code>false</code>
+</dd>
+<dt><strong>end_of_file</strong>(<var>+ErrorOrTerm</var>)</dt>
+<dd class="defbody">
+Action on reading end-of-file. See <a class="pred" href="#json_read/3">json_read/3</a> 
+for details.
+</dd>
+<dt><strong>value_string_as</strong>(<var>+Type</var>)</dt>
+<dd class="defbody">
+Prolog type used for strings used as value. Default is <code>string</code>. 
+The alternative is <code>atom</code>, producing a packed string object.
+</dd>
+</dl>
+
+</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_write_dict/2"><strong>json_write_dict</strong>(<var>+Stream, 
++Dict</var>)</a></dt>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_write_dict/3"><strong>json_write_dict</strong>(<var>+Stream, 
++Dict, +Options</var>)</a></dt>
+<dd class="defbody">
+Write a JSON term, represented using dicts. This is the same as
+<a class="pred" href="#json_write/3">json_write/3</a>, but assuming the 
+default representation of JSON objects as dicts.</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="atom_json_dict/3"><strong>atom_json_dict</strong>(<var>+Atom, 
+-JSONDict, +Options</var>)</a></dt>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="atom_json_dict/3"><strong>atom_json_dict</strong>(<var>-Text, 
++JSONDict, +Options</var>)</a></dt>
+<dd class="defbody">
+Convert between textual representation and a JSON term represented as a 
+dict. <var>Options</var> are as for <a class="pred" href="#json_read/3">json_read/3</a>. 
+In <i>write</i> mode, the additional option
+
+<dl class="latex">
+<dt><strong>as</strong>(<var>Type</var>)</dt>
+<dd class="defbody">
+defines the output type, which is one of <code>atom</code>,
+<code>string</code> or <code>codes</code>.
+</dd>
+</dl>
+
+</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json/4"><strong>json</strong>(<var>+Content, 
++Vars, +VarDict, -JSON</var>)</a></dt>
+<dd class="defbody">
+The predicate <a class="pred" href="#json/4">json/4</a> implements <var>JSON</var> 
+quasi quotations. These quotations produce a <var>JSON</var> dict that 
+is suitable for
+<a class="pred" href="#json_write_dict/2">json_write_dict/2</a>. The 
+quasi quoter only accepts valid, but possibly partial <var>JSON</var> 
+documents. The quoter replaces content whose value is a Prolog variable 
+that appears in the argument list of the <code>json</code> indicator. 
+Notably, you can't use a Prolog variable in place of an object key. Here 
+is an example.
+
+<pre class="code">
+  {|json(Name)||
+      { "name": Name,
+        "created": {
+          "day":null,
+          "month":"December",
+          "year":2007
+        },
+        "confirmed":true,
+        "members":[1,2,3]
+      }
+  |}.
+</pre>
+
+<p></dd>
+</dl>
+
+<p><h3 id="sec:jsonschema"><a id="sec:1.2"><span class="sec-nr">1.2</span> <span class="sec-title">library(json_schema): 
+JSON Schema reader and validator</span></a></h3>
+
+<p><a id="sec:jsonschema"></a>
+
+<p>This module provides a JSON Schema reader and validator. This module 
+is based on the 2020-12 draft of the specification.
+
+<p>The API consists of two primitives and a simple high level predicate 
+(<a class="pred" href="#json_validate/3">json_validate/3</a>):
+
+<p>
+<ul class="latex">
+<li><a class="pred" href="#json_compile_schema/3">json_compile_schema/3</a> 
+translates a file or parsed JSON schema data into a Prolog term that 
+represents the schema in a way that is more suitable for checking a JSON 
+document.
+<li><a class="pred" href="#json_check/3">json_check/3</a> validates a 
+document against the compiled schema.
+</ul>
+
+<p><h4 id="sec:json-schema-status"><a id="sec:1.2.1"><span class="sec-nr">1.2.1</span> <span class="sec-title">Status</span></a></h4>
+
+<p><a id="sec:json-schema-status"></a>
+
+<p>The implementation is validated against
+<a class="url" href="https://github.com/json-schema-org/JSON-Schema-Test-Suite.git">https://github.com/json-schema-org/JSON-Schema-Test-Suite.git</a>. 
+It fails 4 out of 1,261 tests. Issues:
+
+<p>
+<ul class="latex">
+<li><code>$dynamicRef</code> fails 3 tests, probably mixing up physical 
+context and resolution context that defines the <i>dynamic scopes</i>.
+<li>There is no support for non-default vocabulary selection.
+</ul>
+
+<p>The current implementation is the result of an incremental process. 
+It should be refactored to make it a cleaner translation of the 
+specification.
+
+<p><h4 id="sec:json-schema-predicates"><a id="sec:1.2.2"><span class="sec-nr">1.2.2</span> <span class="sec-title">Predicates</span></a></h4>
+
+<p><a id="sec:json-schema-predicates"></a>
+
+<dl class="latex">
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_validate/3"><strong>json_validate</strong>(<var>+SchemaFile, 
++DataDict, +Options</var>)</a></dt>
+<dd class="defbody">
+Given a file holding a JSON Schema and a Prolog dict holding JSON data, 
+validate the data against the schema. <var>Options</var> are passed to
+<a class="pred" href="#json_compile_schema/3">json_compile_schema/3</a> 
+and <a class="pred" href="#json_check/3">json_check/3</a>.
+
+<dl class="tags">
+<dt class="tag">throws</dt>
+<dd>
+<code>error(Formal, json_path(Path))</code>, where <var>Path</var> is a 
+list of properties from the root element to the culprit element. Formal 
+is typically a type, domain or existence error. This file contains the 
+message hooks to generate a human readable error from these exceptions 
+using <span class="pred-ext">print_message/2</span>.
+</dd>
+</dl>
+
+</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_compile_schema/3"><strong>json_compile_schema</strong>(<var>+Input, 
+-Type, +Options</var>)</a></dt>
+<dd class="defbody">
+Load and translated a JSON Schema. <var>Input</var> is either a file 
+name, a specification for <span class="pred-ext">absolute_file_name/3</span> 
+or the output of
+<a class="pred" href="#json_read_dict/2">json_read_dict/2</a>.
+
+<p>If <var>Input</var> is a file name, the loaded and compiled schema is 
+cached. Reusing the cache validates the modification file of the schema 
+file and reloads it if the file's time stamp has changed. Note that
+<code>true</code> and <code>false</code> are valid schemas and cannot be 
+used as file names.</dd>
+<dt class="pubdef"><span class="pred-tag">[semidet]</span><a id="json_check/3"><strong>json_check</strong>(<var>+Spec, 
+?JSON, +Options</var>)</a></dt>
+<dd class="defbody">
+Validate a <var>JSON</var> object. <var>Spec</var> is a Prolog 
+representation of the schema that is optimized for validation. This 
+representation is derived from <var>JSON</var> data using <a class="pred" href="#json_compile_schema/3">json_compile_schema/3</a>. <var>Options</var>:
+
+<dl class="latex">
+<dt><strong>on_error</strong>(<var>Mode</var>)</dt>
+<dd class="defbody">
+What to do if an error is found. Defined modes are
+
+<dl class="latex">
+<dt><strong>error</strong></dt>
+<dd class="defbody">
+Raise an exception. This is the default. Note that only the first error 
+is reported this way.
+</dd>
+<dt><strong>warning</strong></dt>
+<dd class="defbody">
+Print a message
+</dd>
+<dt><strong>silent</strong></dt>
+<dd class="defbody">
+Fail
+</dd>
+</dl>
+
+</dd>
+<dt><strong>value_string_as</strong>(<var>Type</var>)</dt>
+<dd class="defbody">
+Same as for <a class="pred" href="#json_read/3">json_read/3</a>.
+</dd>
+</dl>
+
+<p>This predicate is often used through <span class="pred-ext">validate_json_dict/3</span>, 
+which mantains a cached mapping from the <var>JSON</var> Schema to <var>Spec</var>.
+</dd>
+</dl>
+
+<p><h3 id="sec:jsonrpcclient"><a id="sec:1.3"><span class="sec-nr">1.3</span> <span class="sec-title">library(json_rpc_client): 
+JSON RPC client</span></a></h3>
+
+<p><a id="sec:jsonrpcclient"></a>
+
+<p>This module implements a JSON RPC compliant client. The three 
+predicates require a <i>stream pair</i> (see <span class="pred-ext">stream_pair/2</span>) 
+that connects us to a JSON RPC server.
+
+<dl class="latex">
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_call/4"><strong>json_call</strong>(<var>+Stream, 
++Goal, -Result, +Options</var>)</a></dt>
+<dd class="defbody">
+Run <var>Goal</var> on a JSON RPC service identified by <var>Stream</var> 
+and wait for
+<var>Result</var>. This predicate may be called from multiple threads. 
+As replies come in in arbitrary order, this predicate starts a thread 
+the reads the replies from <var>Stream</var> and informs the calling 
+thread using a Prolog message queue.
+
+<p>If <var>Stream</var> is closed this library terminates the thread and 
+related message queue.
+<table class="arglist">
+<tr><td><var>Goal</var> </td><td>is a callable term. The functor name is 
+the method. If there is a single argument that is a dict, we invoke a 
+JSON-RPC method using <i>named arguments</i>. If there is a single 
+argument that is a list, use the elements of the list as <i>positional 
+arguments</i>. If there are zero or more than one arguments use these as
+<i>positional arguments</i>. Examples:
+<blockquote>
+<table class="latex frame-box">
+<tr><td>Term</td><td>Method</td><td>Type</td><td>JSON (<code>params</code>) </td></tr>
+</table>
+</blockquote>
+
+<p>
+<hr>
+<blockquote>
+<table class="latex frame-box">
+<tr><td><code>f(#{a:1,b:2}</code> </td><td>f</td><td>named</td><td>{"a":1, 
+"b":2} </td></tr>
+<tr><td><code>f(["a", 42])</code> </td><td>f</td><td>positional</td><td>["a", 
+42] </td></tr>
+<tr><td>f([#{"a":1}])</td><td>f</td><td>positional</td><td>[{"a":1}] </td></tr>
+<tr><td><code>f()</code> </td><td>f</td><td>positional</td><td><code>[]</code> </td></tr>
+<tr><td><code>f("a", 42)</code> </td><td>f</td><td>positional</td><td>["a", 
+42] </td></tr>
+</table>
+</blockquote>
+
+<p><var>Options</var> processed: </td></tr>
+</table>
+</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_notify/3"><strong>json_notify</strong>(<var>+Stream, 
++Goal, +Options</var>)</a></dt>
+<dd class="defbody">
+Run <var>Goal</var> on a JSON RPC service identified by <var>Stream</var> 
+without waiting for the result.</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_batch/5"><strong>json_batch</strong>(<var>+Stream, 
++Notifications:list, +Calls:list, -Results:list, +Options</var>)</a></dt>
+<dd class="defbody">
+Run a batch of notifications and normal calls on the JSON server at the 
+other end of <var>Stream</var>. On success, Result is unified to a list 
+with the same length as <var>Calls</var>. Each element either contains a 
+value, similar to <a class="pred" href="#json_call/4">json_call/4</a> or 
+a term <code>error(Dict)</code>, where <var>Dict</var> holds the
+<code>code</code>, <code>message</code> and optional <code>data</code> 
+field. Note that <code>error(Dict)</code> is not a valid JSON type and 
+this is thus unambiguous. While the JSON RPC standard allows the server 
+to process the messages in any order and allows for concurrent 
+processing, all results are sent in one message and this client ensures 
+the elements of the <var>Results</var> list are in the same order as the <var>Calls</var> 
+list. If the <var>Calls</var> list is empty this predicate does not wait 
+for a reply.</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_full_duplex/2"><strong>json_full_duplex</strong>(<var>+Stream, 
+:Options</var>)</a></dt>
+<dd class="defbody">
+Start the thread for incomming data and on requests, dispatch them using <code>library(jso_rpc_server)</code> 
+in the module derived from the <var>Options</var> list.
+</dd>
+</dl>
+
+<p><h3 id="sec:jsonrpcserver"><a id="sec:1.4"><span class="sec-nr">1.4</span> <span class="sec-title">library(json_rpc_server): 
+JSON RPC Server</span></a></h3>
+
+<p><a id="sec:jsonrpcserver"></a>
+
+<dl class="tags">
+<dt class="tag">See also</dt>
+<dd>
+<a class="url" href="https://www.jsonrpc.org/specification">JSON-RPC</a>
+</dd>
+</dl>
+
+<p>This module implements an JSON RPC server. It provides declarations 
+that bind Prolog predicates to JSON RPC methods and a dispatch loop that 
+acts on a bi-directional stream. This module assumes a two-directional 
+stream and provides <a class="pred" href="#json_rpc_dispatch/2">json_rpc_dispatch/2</a> 
+that receiveds JSON messages on the input side of this stream and sends 
+the replies through the output. This module does not implement obtaining 
+such a stream. Obvious candidates for obtaining a stream are:
+
+<p>
+<ul class="latex">
+<li>Using standard I/O to a child process. See <span class="pred-ext">process_create/3</span>.
+<li>Using sockets. See <code>library(socket)</code>. Using the SSL 
+package this also provides secure sockets.
+<li>Using the HTTP package to extablish a <i>web socket</i>.
+</ul>
+
+<p>This library defines <a class="pred" href="#json_method/1">json_method/1</a> 
+for declaring predicates to act as a JSON method. The declaration 
+accepts a JSON Schema specification, represented as a SWI-Prolog dict to 
+specify the input parameters as well as the output.
+
+<dl class="latex">
+<dt class="pubdef"><a id="json_method/1"><strong>json_method</strong>(<var>+Methods</var>)</a></dt>
+<dd class="defbody">
+<var>Methods</var> is a comma-list of JSON RPC method declarations. Each 
+declaration takes one of the forms below:
+
+<dl class="latex">
+<dt><var><var>Callable</var></var><strong><code>:</code></strong><var><var>Reply</var></var></dt>
+<dd class="defbody">
+Here, <var>Callable</var> is a Prolog callable term whose name and 
+number of argument match a predicate in this module. The arguments are 
+JSON Schema types and <var>Reply</var> is a JSON Schema type.
+</dd>
+<dt><strong><var>Callable</var></strong></dt>
+<dd class="defbody">
+<var>Callable</var> is as above, but there is no return value. This 
+implements JSON RPC <i>notifications</i>, i.e., asynchronously processed 
+messages for which we do not wait for a reply.
+</dd>
+</dl>
+
+<p>For example:
+
+<pre class="code">
+:- json_method
+    subtract(#{type:number}, #{type:number}): #{type:number}.
+
+subtract(A, B, R) :- R is A-B.
+</pre>
+
+<p><var>Methods</var> with <i>named arguments</i> can be implemented 
+using a single argument that is an object with specified properties. For 
+example, the program below implements a depositing to a bank account. 
+The method takes an <code>account</code> and <code>amount</code> 
+parameter and returns the new balance. The <a class="pred" href="#json_rpc_error/2">json_rpc_error/2</a> 
+throws a JSON RPC <i>application error</i>.
+
+<pre class="code">
+:- json_method
+    deposit(#{ properties:
+               #{ account: #{type:string},
+                  amount:  #{type:number}
+                }}): #{type:number},
+
+deposit(Request, Reply),
+    #{account: Account, amount: Amount} :&lt; Request =&gt;
+    transaction((   retract(account(Account, Old))
+                -&gt;  New is Old+Amount,
+                    asserta(account(Account, New))
+                ;   json_rpc_error(2, "Account does not exist")
+                )),
+    Reply = New.
+</pre>
+
+</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_rpc_dispatch/2"><strong>json_rpc_dispatch</strong>(<var>:Stream, 
++Options</var>)</a></dt>
+<dd class="defbody">
+Run the JSON RPC dispatch loop until end of file is reached on
+<var>Stream</var>.
+<table class="arglist">
+<tr><td><var>Stream</var> </td><td>is stream pair (see <span class="pred-ext">stream_pair/2</span>). 
+Normally, the stream should use <code>utf8</code> encoding. If the 
+stream is a binary stream, it will be processed as if <code>utf8</code> 
+encoding is enabled. If it is a text stream the encoding of the stream 
+is respected. </td></tr>
+</table>
+</dd>
+<dt class="pubdef"><a id="json_rpc_dispatch_request/4"><strong>json_rpc_dispatch_request</strong>(<var>+Module, 
++Stream, +Request, +Options</var>)</a></dt>
+<dd class="defbody">
+Handle a request that has been read from <var>Stream</var>, possibly 
+sending a reply to <var>Stream</var>.</dd>
+<dt class="pubdef"><a id="json_rpc_error/2"><strong>json_rpc_error</strong>(<var>+Code, 
++Message</var>)</a></dt>
+<dt class="pubdef"><a id="json_rpc_error/3"><strong>json_rpc_error</strong>(<var>+Code, 
++Message, +Data</var>)</a></dt>
+<dd class="defbody">
+Normally called from a method implementation to raise an
+<i>application error</i>.
+<table class="arglist">
+<tr><td><var>Code</var> </td><td>is an integer. The range -32768 to 
+-32000 is reserved for JSON RPC server errors. </td></tr>
+<tr><td><var>Message</var> </td><td>is a short string decribing the 
+error </td></tr>
+<tr><td><var>Data</var> </td><td>is optional JSON data that provides 
+context for the error. </td></tr>
+</table>
+
+<dl class="tags">
+<dt class="tag">Errors</dt>
+<dd>
+<code>json_rpc_error(Dict)</code>, where <var>Dict</var> contains the 
+JSON RPC defined fields <code>code</code>, <code>message</code> and 
+optionally <code>data</code>.
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+<p><h3 id="sec:jsonconvert"><a id="sec:1.5"><span class="sec-nr">1.5</span> <span class="sec-title">library(json_convert): 
+Convert between JSON terms and Prolog application terms</span></a></h3>
+
+<p><a id="sec:jsonconvert"></a>
+
+<dl class="tags">
+<dt class="mtag">To be done</dt>
+<dd>
+- Ignore extra fields. Using a partial list of <i>extra</i>? <br>
+- Consider a sensible default for handling JSON <code>null</code>. 
+Conversion to Prolog could translate @null into a variable if the 
+desired type is not <code>any</code>. Conversion to JSON could map 
+variables to <code>null</code>, though this may be unsafe. If the Prolog 
+term is known to be non-ground and JSON @null is a sensible mapping, we 
+can also use this simple snippet to deal with that fact.
+
+<pre class="code">
+        term_variables(Term, Vars),
+        maplist(=(@null), Vars).
+</pre>
+
+<p></dd>
+</dl>
+
+<p>The idea behind this module is to provide a flexible high-level 
+mapping between Prolog terms as you would like to see them in your 
+application and the standard representation of a JSON object as a Prolog 
+term. For example, an X-Y point may be represented in JSON as <code>{"x":25, "y":50}</code>. 
+Represented in Prolog this becomes <code>json([x=25,y=50])</code>, but 
+this is a pretty non-natural representation from the Prolog point of 
+view.
+
+<p>This module allows for defining records (just like <code>library(record)</code>) 
+that provide transparent two-way transformation between the two 
+representations.
+
+<pre class="code">
+:- json_object
+        point(x:integer, y:integer).
+</pre>
+
+<p>This declaration causes <a class="pred" href="#prolog_to_json/2">prolog_to_json/2</a> 
+to translate the native Prolog representation into a JSON Term:
+
+<pre class="code">
+?- prolog_to_json(point(25,50), X).
+
+X = json([x=25, y=50])
+</pre>
+
+<p>A <a class="pred" href="#json_object/1">json_object/1</a> declaration 
+can define multiple objects separated by a comma (,), similar to the <span class="pred-ext">dynamic/1</span> 
+directive. Optionally, a declaration can be qualified using a module. 
+The conversion predicates
+<a class="pred" href="#prolog_to_json/2">prolog_to_json/2</a> and <a class="pred" href="#json_to_prolog/2">json_to_prolog/2</a> 
+first try a conversion associated with the calling module. If not 
+successful, they try conversions associated with the module <code>user</code>.
+
+<p>JSON objects have no <i>type</i>. This can be solved by adding an 
+extra field to the JSON object, e.g. <code>{"type":"point", "x":25, "y":50}</code>. 
+As Prolog records are typed by their functor we need some notation to 
+handle this gracefully. This is achieved by adding +Fields to the 
+declaration. I.e.
+
+<pre class="code">
+:- json_object
+        point(x:integer, y:integer) + [type=point].
+</pre>
+
+<p>Using this declaration, the conversion becomes:
+
+<pre class="code">
+?- prolog_to_json(point(25,50), X).
+
+X = json([x=25, y=50, type=point])
+</pre>
+
+<p>The predicate <a class="pred" href="#json_to_prolog/2">json_to_prolog/2</a> 
+is often used after <a class="pred" href="#http_read_json/2">http_read_json/2</a> 
+and
+<a class="pred" href="#prolog_to_json/2">prolog_to_json/2</a> before <a class="pred" href="#reply_json/1">reply_json/1</a>. 
+For now we consider them separate predicates because the transformation 
+may be too general, too slow or not needed for dedicated applications. 
+Using a separate step also simplifies debugging this rather complicated 
+process.
+
+<dl class="latex">
+<dt class="multidef"><span class="pred-tag">[multifile]</span><a id="current_json_object/3"><strong>current_json_object</strong>(<var>Term, 
+Module, Fields</var>)</a></dt>
+<dd class="defbody">
+Multifile predicate computed from the <a class="pred" href="#json_object/1">json_object/1</a> 
+declarations. <var>Term</var> is the most general Prolog term 
+representing the object. <var>Module</var> is the module in which the 
+object is defined and <var>Fields</var> is a list of <code>f(Name, Type, Default, Var)</code>, 
+ordered by Name. Var is the corresponding variable in <var>Term</var>.</dd>
+<dt class="pubdef"><a id="json_object/1"><strong>json_object</strong>(<var>+Declaration</var>)</a></dt>
+<dd class="defbody">
+Declare a JSON object. The declaration takes the same format as using in <span class="pred-ext">record/1</span> 
+from <code>library(record)</code>. E.g.
+
+<pre class="code">
+?- json_object
+      point(x:int, y:int, z:int=0).
+</pre>
+
+<p>The type arguments are either types as know to <code>library(error)</code> 
+or functor names of other JSON objects. The constant <code>any</code> 
+indicates an untyped argument. If this is a JSON term, it becomes 
+subject to <a class="pred" href="#json_to_prolog/2">json_to_prolog/2</a>. 
+I.e., using the type
+<code>list(any)</code> causes the conversion to be executed on each 
+element of the list.
+
+<p>If a field has a default, the default is used if the field is not 
+specified in the JSON object. Extending the record type definition, 
+types can be of the form (Type1<code>|</code>Type2). The type
+<code>null</code> means that the field may <i>not</i> be present.
+
+<p>Conversion of JSON to Prolog applies if all non-defaulted arguments 
+can be found in the JSON object. If multiple rules match, the term with 
+the highest arity gets preference.</dd>
+<dt class="pubdef"><span class="pred-tag">[semidet]</span><a id="prolog_bool_to_json/2"><strong>prolog_bool_to_json</strong>(<var>+Prolog, 
+-JSON</var>)</a></dt>
+<dd class="defbody">
+<var>JSON</var> is the <var>JSON</var> boolean for <var>Prolog</var>. It 
+is a flexible the <var>Prolog</var> notation for truth-value, accepting 
+one of <code>true</code>, <code>on</code> or <code>1</code> for @true 
+and one of <code>false</code>, <code>fail</code>, <code>off</code> or <code>0</code> 
+for @false.
+
+<dl class="tags">
+<dt class="tag">Errors</dt>
+<dd>
+instantiation_error if <var>Prolog</var> is unbound.
+</dd>
+</dl>
+
+</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="prolog_to_json/2"><strong>prolog_to_json</strong>(<var>:Term, 
+-JSONObject</var>)</a></dt>
+<dd class="defbody">
+Translate a Prolog application <var>Term</var> into a JSON object term. 
+This transformation is based on <code>:-</code> <a class="pred" href="#json_object/1">json_object/1</a> 
+declarations. If a <a class="pred" href="#json_object/1">json_object/1</a> 
+declaration declares a field of type
+<code>boolean</code>, commonly used truth-values in Prolog are converted 
+to JSON booleans. Boolean translation accepts one of <code>true</code>,
+<code>on</code>, <code>1</code>, @true, <code>false</code>, <code>fail</code>, <code>off</code> 
+or <code>0</code>, @false.
+
+<dl class="tags">
+<dt class="mtag">Errors</dt>
+<dd>
+- <code>type_error(json_term, X)</code> <br>
+- instantiation_error
+</dd>
+</dl>
+
+</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="json_to_prolog/2"><strong>json_to_prolog</strong>(<var>+JSON, 
+-Term</var>)</a></dt>
+<dd class="defbody">
+Translate a <var>JSON</var> term into an application term. This 
+transformation is based on <code>:-</code> <a class="pred" href="#json_object/1">json_object/1</a> 
+declarations. An efficient transformation is non-trivial, but we rely on 
+the assumption that, although the order of fields in <var>JSON</var> 
+terms is irrelevant and can therefore vary a lot, practical applications 
+will normally generate the <var>JSON</var> objects in a consistent 
+order.
+
+<p>If a field in a json_object is declared of type <code>boolean</code>, 
+@true and @false are translated to <code>true</code> or <code>false</code>, 
+the most commonly used Prolog representation for truth-values.
+</dd>
+</dl>
+
+<p><h3 id="sec:httpjson"><a id="sec:1.6"><span class="sec-nr">1.6</span> <span class="sec-title">library(http/http_json): 
+HTTP JSON Plugin module</span></a></h3>
+
+<p><a id="sec:httpjson"></a>
+
+<dl class="tags">
+<dt class="mtag">See also</dt>
+<dd>
+- JSON Requests are discussed in <a class="url" href="http://json.org/JSONRequest.html">http://json.org/JSONRequest.html</a> <br>
+- <code>json.pl</code> describes how JSON objects are represented in 
+Prolog terms. <br>
+- <code>json_convert.pl</code> converts between more natural Prolog 
+terms and json terms.
+</dd>
+</dl>
+
+<p>Most code doesn't need to use this directly; instead use
+<code>library(http/http_server)</code>, which combines this library with 
+the typical HTTP libraries that most servers need.
+
+<p>This module adds hooks to several parts of the HTTP libraries, making 
+them JSON-aware. Notably:
+
+<p>
+<ul class="latex">
+<li>Make <span class="pred-ext">http_read_data/3</span> convert <code>application/json</code> 
+and
+<code>application/jsonrequest</code> content to a JSON term.
+<li>Cause <span class="pred-ext">http_open/3</span> to accept <code>post(json(Term))</code> 
+to issue a POST request with JSON content.
+<li>Provide HTTP server and client utility predicates for reading and 
+replying JSON:
+
+<p>
+<ul class="compact">
+<li><a class="pred" href="#http_read_json/2">http_read_json/2</a>
+<li><a class="pred" href="#http_read_json/3">http_read_json/3</a>
+<li><a class="pred" href="#http_read_json_dict/2">http_read_json_dict/2</a>
+<li><a class="pred" href="#http_read_json_dict/3">http_read_json_dict/3</a>
+<li><a class="pred" href="#reply_json/1">reply_json/1</a>
+<li><a class="pred" href="#reply_json/2">reply_json/2</a>
+<li><a class="pred" href="#reply_json_dict/1">reply_json_dict/1</a>
+<li><a class="pred" href="#reply_json_dict/2">reply_json_dict/2</a>
+</ul>
+
+<p>
+<li>Reply to exceptions in the server using an JSON document rather then 
+HTML if the <code>Accept</code> header prefers application/json over 
+text/html.
+</ul>
+
+<p>Typically JSON is used by Prolog HTTP servers. This module supports 
+two JSON representations: the classical representation and the new 
+representation supported by the SWI-Prolog version 7 extended data 
+types. Below is a skeleton for handling a JSON request, answering in 
+JSON using the classical interface.
+
+<pre class="code">
+handle(Request) :-
+      http_read_json(Request, JSONIn),
+      json_to_prolog(JSONIn, PrologIn),
+      &lt;compute&gt;(PrologIn, PrologOut),         % application body
+      prolog_to_json(PrologOut, JSONOut),
+      reply_json(JSONOut).
+</pre>
+
+<p>When using dicts, the conversion step is generally not needed and the 
+code becomes:
+
+<pre class="code">
+handle(Request) :-
+      http_read_json_dict(Request, DictIn),
+      &lt;compute&gt;(DictIn, DictOut),
+      reply_json(DictOut).
+</pre>
+
+<p>This module also integrates JSON support into the http client 
+provided by <code>http_client.pl</code>. Posting a JSON query and 
+processing the JSON reply (or any other reply understood by <span class="pred-ext">http_read_data/3</span>) 
+is as simple as below, where Term is a JSON term as described in <code>json.pl</code> 
+and reply is of the same format if the server replies with JSON.
+
+<pre class="code">
+      ...,
+      http_post(URL, json(Term), Reply, [])
+</pre>
+
+<dl class="latex">
+<dt class="multidef"><span class="pred-tag">[multifile]</span><a id="http_client:http_convert_data/4"><span class="module">http_client</span>:<strong>http_convert_data</strong>(<var>+In, 
++Fields, -Data, +Options</var>)</a></dt>
+<dd class="defbody">
+Hook implementation that supports reading JSON documents. It processes 
+the following option:
+
+<dl class="latex">
+<dt><strong>json_object</strong>(<var>+As</var>)</dt>
+<dd class="defbody">
+Where <var>As</var> is one of <code>term</code> or <code>dict</code>. If 
+the value is <code>dict</code>,
+<a class="pred" href="#json_read_dict/3">json_read_dict/3</a> is used.
+</dd>
+</dl>
+
+</dd>
+<dt class="pubdef"><span class="pred-tag">[semidet]</span><a id="is_json_content_type/1"><strong>is_json_content_type</strong>(<var>+ContentType</var>)</a></dt>
+<dd class="defbody">
+True if <var>ContentType</var> is a header value (either parsed or as 
+atom/string) that denotes a JSON value.</dd>
+<dt class="multidef"><span class="pred-tag">[semidet,multifile]</span><a id="json_type/1"><strong>json_type</strong>(<var>?MediaType</var>)</a></dt>
+<dd class="defbody">
+True if <var>MediaType</var> is a JSON media type. <span class="pred-ext">http_json:json_type/1</span> 
+is a multifile predicate and may be extended to facilitate 
+non-conforming clients.
+<table class="arglist">
+<tr><td><var>MediaType</var> </td><td>is a term <var>Type</var>/<var>SubType</var>, 
+where both <var>Type</var> and
+<var>SubType</var> are atoms. </td></tr>
+</table>
+</dd>
+<dt class="multidef"><span class="pred-tag">[semidet,multifile]</span><a id="http:post_data_hook/3"><span class="module">http</span>:<strong>post_data_hook</strong>(<var>+Data, 
++Out:stream, +HdrExtra</var>)</a></dt>
+<dd class="defbody">
+Hook implementation that allows <span class="pred-ext">http_post_data/3</span> 
+posting JSON objects using one of the forms below.
+
+<pre class="code">
+http_post(URL, json(Term), Reply, Options)
+http_post(URL, json(Term, Options), Reply, Options)
+</pre>
+
+<p>If Options are passed, these are handed to <a class="pred" href="#json_write/3">json_write/3</a>. 
+In addition, this option is processed:
+
+<dl class="latex">
+<dt><strong>json_object</strong>(<var>As</var>)</dt>
+<dd class="defbody">
+If <var>As</var> is <code>dict</code>, <a class="pred" href="#json_write_dict/3">json_write_dict/3</a> 
+is used to write the output. This is default if <code>json(Dict)</code> 
+is passed.
+</dd>
+</dl>
+
+<dl class="tags">
+<dt class="tag">To be done</dt>
+<dd>
+avoid creation of intermediate data using chunked output.
+</dd>
+</dl>
+
+</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="http_read_json/2"><strong>http_read_json</strong>(<var>+Request, 
+-JSON</var>)</a></dt>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="http_read_json/3"><strong>http_read_json</strong>(<var>+Request, 
+-JSON, +Options</var>)</a></dt>
+<dd class="defbody">
+Extract <var>JSON</var> data posted to this HTTP request. <var>Options</var> 
+are passed to <a class="pred" href="#json_read/3">json_read/3</a>. In 
+addition, this option is processed:
+
+<dl class="latex">
+<dt><strong>json_object</strong>(<var>+As</var>)</dt>
+<dd class="defbody">
+One of <code>term</code> (default) to generate a classical Prolog term 
+or <code>dict</code> to exploit the SWI-Prolog version 7 data type 
+extensions. See <a class="pred" href="#json_read_dict/3">json_read_dict/3</a>.
+</dd>
+</dl>
+
+<dl class="tags">
+<dt class="mtag">Errors</dt>
+<dd>
+- <code>domain_error(mimetype, Found)</code> if the mimetype is not 
+known (see <a class="pred" href="#json_type/1">json_type/1</a>). <br>
+- <code>domain_error(method, Method)</code> if the request method is not 
+a <code>POST</code>, <code>PUT</code> or <code>PATCH</code>.
+</dd>
+</dl>
+
+</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="http_read_json_dict/2"><strong>http_read_json_dict</strong>(<var>+Request, 
+-Dict</var>)</a></dt>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="http_read_json_dict/3"><strong>http_read_json_dict</strong>(<var>+Request, 
+-Dict, +Options</var>)</a></dt>
+<dd class="defbody">
+Similar to <a class="pred" href="#http_read_json/2">http_read_json/2</a>,3, 
+but by default uses the version 7 extended datatypes.</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="reply_json/1"><strong>reply_json</strong>(<var>+JSONTerm</var>)</a></dt>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="reply_json/2"><strong>reply_json</strong>(<var>+JSONTerm, 
++Options</var>)</a></dt>
+<dd class="defbody">
+Formulate a JSON HTTP reply. See <a class="pred" href="#json_write/2">json_write/2</a> 
+for details. The processed options are listed below. Remaining options 
+are forwarded to <a class="pred" href="#json_write/3">json_write/3</a>.
+
+<dl class="latex">
+<dt><strong>content_type</strong>(<var>+Type</var>)</dt>
+<dd class="defbody">
+The default <code>Content-type</code> is <code>application/json; charset=UTF8</code>. <code>charset=UTF8</code> 
+should not be required because JSON is defined to be UTF-8 encoded, but 
+some clients insist on it.
+</dd>
+<dt><strong>status</strong>(<var>+Code</var>)</dt>
+<dd class="defbody">
+The default status is 200. REST API functions may use other values from 
+the 2XX range, such as 201 (created).
+</dd>
+<dt><strong>json_object</strong>(<var>+As</var>)</dt>
+<dd class="defbody">
+One of <code>term</code> (classical json representation) or <code>dict</code> 
+to use the new dict representation. If omitted and Term is a dict, <code>dict</code> 
+is assumed. SWI-Prolog Version 7.
+</dd>
+</dl>
+
+</dd>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="reply_json_dict/1"><strong>reply_json_dict</strong>(<var>+JSONTerm</var>)</a></dt>
+<dt class="pubdef"><span class="pred-tag">[det]</span><a id="reply_json_dict/2"><strong>reply_json_dict</strong>(<var>+JSONTerm, 
++Options</var>)</a></dt>
+<dd class="defbody">
+As <a class="pred" href="#reply_json/1">reply_json/1</a> and <a class="pred" href="#reply_json/2">reply_json/2</a>, 
+but assumes the new dict based data representation. Note that this is 
+the default if the outer object is a dict. This predicate is needed to 
+serialize a list of objects correctly and provides consistency with
+<a class="pred" href="#http_read_json_dict/2">http_read_json_dict/2</a> 
+and friends.
+</dd>
+</dl>
+
+</ul>
+
+<h1><a id="document-index">Index</a></h1>
+
+<dl>
+<dt class="index-sep">?</dt>
+<dt><a class="idx" href="#atom_json_dict/3">atom_json_dict/3</a></dt>
+<dt><a class="idx" href="#atom_json_term/3">atom_json_term/3</a></dt>
+<dt><a class="idx" href="#current_json_object/3">current_json_object/3</a></dt>
+<dt><a class="idx" href="#http:post_data_hook/3">http:post_data_hook/3</a></dt>
+<dt><a class="idx" href="#http_client:http_convert_data/4">http_client:http_convert_data/4</a></dt>
+<dt><a class="idx" href="#http_read_json/2">http_read_json/2</a></dt>
+<dt><a class="idx" href="#http_read_json/3">http_read_json/3</a></dt>
+<dt><a class="idx" href="#http_read_json_dict/2">http_read_json_dict/2</a></dt>
+<dt><a class="idx" href="#http_read_json_dict/3">http_read_json_dict/3</a></dt>
+<dt><a class="idx" href="#is_json_content_type/1">is_json_content_type/1</a></dt>
+<dt><a class="idx" href="#is_json_term/1">is_json_term/1</a></dt>
+<dt><a class="idx" href="#is_json_term/2">is_json_term/2</a></dt>
+<dt><a class="idx" href="#json/4">json/4</a></dt>
+<dt><a class="idx" href="#json_batch/5">json_batch/5</a></dt>
+<dt><a class="idx" href="#json_call/4">json_call/4</a></dt>
+<dt><a class="idx" href="#json_check/3">json_check/3</a></dt>
+<dt><a class="idx" href="#json_compile_schema/3">json_compile_schema/3</a></dt>
+<dt><a class="idx" href="#json_dict_pairs/2">json_dict_pairs/2</a></dt>
+<dt><a class="idx" href="#json_full_duplex/2">json_full_duplex/2</a></dt>
+<dt><a class="idx" href="#json_method/1">json_method/1</a></dt>
+<dt><a class="idx" href="#json_notify/3">json_notify/3</a></dt>
+<dt><a class="idx" href="#json_object/1">json_object/1</a></dt>
+<dt><a class="idx" href="#json_read/2">json_read/2</a></dt>
+<dt><a class="idx" href="#json_read/3">json_read/3</a></dt>
+<dt><a class="idx" href="#json_read_dict/2">json_read_dict/2</a></dt>
+<dt><a class="idx" href="#json_read_dict/3">json_read_dict/3</a></dt>
+<dt><a class="idx" href="#json_rpc_dispatch/2">json_rpc_dispatch/2</a></dt>
+<dt><a class="idx" href="#json_rpc_dispatch_request/4">json_rpc_dispatch_request/4</a></dt>
+<dt><a class="idx" href="#json_rpc_error/2">json_rpc_error/2</a></dt>
+<dt><a class="idx" href="#json_rpc_error/3">json_rpc_error/3</a></dt>
+<dt><a class="idx" href="#json_to_prolog/2">json_to_prolog/2</a></dt>
+<dt><a class="idx" href="#json_type/1">json_type/1</a></dt>
+<dt><a class="idx" href="#json_validate/3">json_validate/3</a></dt>
+<dt><a class="idx" href="#json_write/2">json_write/2</a></dt>
+<dt><a class="idx" href="#json_write/3">json_write/3</a></dt>
+<dt><a class="idx" href="#json_write_dict/2">json_write_dict/2</a></dt>
+<dt><a class="idx" href="#json_write_dict/3">json_write_dict/3</a></dt>
+<dt><a class="idx" href="#json_write_hook/4">json_write_hook/4</a></dt>
+<dt><a class="idx" href="#prolog_bool_to_json/2">prolog_bool_to_json/2</a></dt>
+<dt><a class="idx" href="#prolog_to_json/2">prolog_to_json/2</a></dt>
+<dt><a class="idx" href="#reply_json/1">reply_json/1</a></dt>
+<dt><a class="idx" href="#reply_json/2">reply_json/2</a></dt>
+<dt><a class="idx" href="#reply_json_dict/1">reply_json_dict/1</a></dt>
+<dt><a class="idx" href="#reply_json_dict/2">reply_json_dict/2</a></dt>
+<dd>
+</dd>
+</dl>
+
+</body></html>
