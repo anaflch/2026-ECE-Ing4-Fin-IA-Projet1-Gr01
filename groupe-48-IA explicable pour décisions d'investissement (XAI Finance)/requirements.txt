@@ -1,0 +1,17 @@
+pandas
+numpy
+scikit-learn
+xgboost
+shap
+matplotlib
+seaborn
+requests
+python-dotenv
+yfinance
+ta
+pyarrow
+pyarrow
+fastapi
+uvicorn
+python-multipart
+yahooquery
